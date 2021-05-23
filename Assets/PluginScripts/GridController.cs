@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GridController : MonoBehaviour
 {
-    Vector2 gridArea;
-    int cellSize;
-    ShapeType cellShape;
+    public Vector2 gridArea = new Vector2(10, 10);
+    public int cellSize = 10;
+    public ShapeType cellShape = ShapeType.Square;
 
     List<Rect> cells = new List<Rect>();
 
@@ -19,6 +19,7 @@ public class GridController : MonoBehaviour
     //Initialise the grid
     public void Initialize(Vector2 _Area, int _Size, ShapeType _Shape)
     {
+        cells.Clear();
         gridArea = _Area;
         cellSize = _Size;
         cellShape = _Shape;
@@ -35,7 +36,7 @@ public class GridController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 
     private void OnDrawGizmos()
