@@ -19,6 +19,11 @@ public class GridController : MonoBehaviour
     //Initialise the grid
     public void Initialize(Vector2 _Area, int _Size, ShapeType _Shape)
     {
+        float x = GetComponent<MeshFilter>().sharedMesh.bounds.max.x * transform.localScale.x;
+        float z = GetComponent<MeshFilter>().sharedMesh.bounds.max.z * transform.localScale.z;
+
+        Debug.Log(new Vector2(x , z));
+
         cells.Clear();
         gridArea = _Area;
         cellSize = _Size;
@@ -28,7 +33,7 @@ public class GridController : MonoBehaviour
         {
             for(int j = 0; j < gridArea.y; j++)
             {
-                cells.Add(new Rect(new Vector2(i * cellSize, j * cellSize), new Vector2(cellSize, cellSize)));
+                cells.Add(new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x - cellSize / 2 , z - cellSize / 2), new Vector2(cellSize, cellSize)));
             }
         }
     }
