@@ -37,6 +37,6 @@ public class GridNavMeshEditor : Editor
         //Grab the object we are editing
         GridController cont = (GridController)target;
         //Initialize the grid
-        cont.Initialize(cont.gridArea, cont.cellSize, cont.cellShape);
+        cont.Initialize();
     }
 }
