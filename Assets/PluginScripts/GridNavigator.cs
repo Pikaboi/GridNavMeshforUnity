@@ -8,6 +8,7 @@ public class GridNavigator : MonoBehaviour
     float speed;
     Rect CurrentCell;
     Rect Destination;
+    int cellID;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +18,7 @@ public class GridNavigator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GetCurrentCell();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -40,6 +41,9 @@ public class GridNavigator : MonoBehaviour
             if (currentGrid.cells[i].Contains(new Vector2(transform.position.x, transform.position.z)))
             {
                 CurrentCell = currentGrid.cells[i];
+                cellID = i;
+                //Debug.Log(cellID);
+                Move();
                 break;
             }
         }
@@ -47,7 +51,33 @@ public class GridNavigator : MonoBehaviour
 
     public void Move()
     {
-        
-    }
+        //Yooo A* Alogirithm woooo
+        //g = parent.g + distance between node and parent
+        //h = max {abs(currentx - destx), abs(currenty - desty)}
+        //Get Successors
+        List<Rect> successors = new List<Rect>();
 
+        if(cellID + 1 < currentGrid.cells.Count && cellID % 10 != 9)
+        {
+            successors.Add(currentGrid.cells[cellID + 1]);
+        }
+
+        if(cellID - 1 >= 0 && cellID % 10 != 0)
+        {
+            successors.Add(currentGrid.cells[cellID - 1]);
+        }
+
+        if(cellID - 10 >= 0)
+        {
+            successors.Add(currentGrid.cells[cellID - 10]);
+        }
+
+        if(cellID + 10 < currentGrid.cells.Count)
+        {
+            successors.Add(currentGrid.cells[cellID + 10]);
+        }
+
+        Debug.Log(cellID);
+        Debug.Log(successors.Count);
+    }
 }
