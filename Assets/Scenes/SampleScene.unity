@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -156,6 +156,507 @@ MonoBehaviour:
   gridArea: {x: 10, y: 10}
   cellSize: 50
   cellShape: 0
+  cells:
+  - serializedVersion: 2
+    x: -225
+    y: -225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -225
+    y: -175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -225
+    y: -125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -225
+    y: -75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -225
+    y: -25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -225
+    y: 25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -225
+    y: 75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -225
+    y: 125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -225
+    y: 175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -225
+    y: 225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -175
+    y: -225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -175
+    y: -175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -175
+    y: -125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -175
+    y: -75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -175
+    y: -25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -175
+    y: 25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -175
+    y: 75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -175
+    y: 125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -175
+    y: 175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -175
+    y: 225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -125
+    y: -225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -125
+    y: -175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -125
+    y: -125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -125
+    y: -75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -125
+    y: -25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -125
+    y: 25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -125
+    y: 75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -125
+    y: 125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -125
+    y: 175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -125
+    y: 225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -75
+    y: -225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -75
+    y: -175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -75
+    y: -125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -75
+    y: -75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -75
+    y: -25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -75
+    y: 25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -75
+    y: 75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -75
+    y: 125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -75
+    y: 175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -75
+    y: 225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -25
+    y: -225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -25
+    y: -175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -25
+    y: -125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -25
+    y: -75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -25
+    y: -25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -25
+    y: 25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -25
+    y: 75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -25
+    y: 125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -25
+    y: 175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: -25
+    y: 225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 25
+    y: -225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 25
+    y: -175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 25
+    y: -125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 25
+    y: -75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 25
+    y: -25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 25
+    y: 25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 25
+    y: 75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 25
+    y: 125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 25
+    y: 175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 25
+    y: 225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 75
+    y: -225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 75
+    y: -175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 75
+    y: -125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 75
+    y: -75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 75
+    y: -25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 75
+    y: 25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 75
+    y: 75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 75
+    y: 125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 75
+    y: 175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 75
+    y: 225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 125
+    y: -225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 125
+    y: -175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 125
+    y: -125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 125
+    y: -75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 125
+    y: -25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 125
+    y: 25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 125
+    y: 75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 125
+    y: 125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 125
+    y: 175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 125
+    y: 225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 175
+    y: -225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 175
+    y: -175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 175
+    y: -125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 175
+    y: -75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 175
+    y: -25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 175
+    y: 25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 175
+    y: 75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 175
+    y: 125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 175
+    y: 175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 175
+    y: 225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 225
+    y: -225
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 225
+    y: -175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 225
+    y: -125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 225
+    y: -75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 225
+    y: -25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 225
+    y: 25
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 225
+    y: 75
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 225
+    y: 125
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 225
+    y: 175
+    width: 50
+    height: 50
+  - serializedVersion: 2
+    x: 225
+    y: 225
+    width: 50
+    height: 50
 --- !u!65 &16581019
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -230,6 +731,130 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &495156182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 495156186}
+  - component: {fileID: 495156185}
+  - component: {fileID: 495156184}
+  - component: {fileID: 495156183}
+  - component: {fileID: 495156187}
+  - component: {fileID: 495156188}
+  m_Layer: 0
+  m_Name: Capsule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!136 &495156183
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495156182}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &495156184
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495156182}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &495156185
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495156182}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &495156186
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495156182}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 230.6, y: 20.3, z: 223}
+  m_LocalScale: {x: 25, y: 25, z: 25}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &495156187
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495156182}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!114 &495156188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495156182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c145e52cfcf384c8728fb5e6ba0b50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

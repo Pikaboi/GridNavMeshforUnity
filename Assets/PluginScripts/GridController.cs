@@ -8,7 +8,7 @@ public class GridController : MonoBehaviour
     public int cellSize = 10;
     public ShapeType cellShape = ShapeType.Square;
 
-    List<Rect> cells = new List<Rect>();
+    public List<Rect> cells = new List<Rect>();
 
     // Start is called before the first frame update
     void Start()
