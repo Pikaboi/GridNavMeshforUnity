@@ -57,22 +57,26 @@ public class GridNavigator : MonoBehaviour
         //Get Successors
         List<Rect> successors = new List<Rect>();
 
-        if(cellID + 1 < currentGrid.cells.Count && cellID % 10 != 9)
+        //check we can move right
+        if(cellID + 1 < currentGrid.cells.Count && cellID % currentGrid.gridArea.x != (currentGrid.gridArea.x - 1))
         {
             successors.Add(currentGrid.cells[cellID + 1]);
         }
 
-        if(cellID - 1 >= 0 && cellID % 10 != 0)
+        //Check we can move left
+        if(cellID - 1 >= 0 && cellID % currentGrid.gridArea.x != 0)
         {
             successors.Add(currentGrid.cells[cellID - 1]);
         }
 
-        if(cellID - 10 >= 0)
+        //Check we can move Up
+        if(cellID - 10 >= 0 && cellID % currentGrid.gridArea.y != 0)
         {
             successors.Add(currentGrid.cells[cellID - 10]);
         }
 
-        if(cellID + 10 < currentGrid.cells.Count)
+        //Check we can move Down
+        if(cellID + 10 < currentGrid.cells.Count %% cellID % currentGrid.gridArea.y != (currentGrid.gridArea.y - 1))
         {
             successors.Add(currentGrid.cells[cellID + 10]);
         }
