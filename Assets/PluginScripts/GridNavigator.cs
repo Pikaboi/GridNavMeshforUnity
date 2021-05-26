@@ -8,7 +8,6 @@ public class GridNavigator : MonoBehaviour
     float speed;
     Rect CurrentCell;
     Rect Destination;
-    int cellID;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +17,7 @@ public class GridNavigator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetCurrentCell();
+        //GetCurrentCell();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -31,20 +30,22 @@ public class GridNavigator : MonoBehaviour
     }
 
     public void SetDestination(Rect _Destination) {
-        Destination = currentGrid.cells[0];
+        Destination = currentGrid.cells[0,0];
     }
 
     public void GetCurrentCell()
     {
-        for (int i = 0; i < currentGrid.cells.Count; i++)
+        Debug.Log(currentGrid.gridArea);
+        for (int i = 0; i < currentGrid.gridArea.x; i++)
         {
-            if (currentGrid.cells[i].Contains(new Vector2(transform.position.x, transform.position.z)))
+            for(int j = 0; j < currentGrid.gridArea.y; j++)
             {
-                CurrentCell = currentGrid.cells[i];
-                cellID = i;
-                //Debug.Log(cellID);
-                Move();
-                break;
+                if (currentGrid.cells[i,j].Contains(new Vector2(transform.position.x, transform.position.z)))
+                {
+                    CurrentCell = currentGrid.cells[i,j];    
+                    //Move();
+                    break;
+                }
             }
         }
     }
@@ -58,30 +59,6 @@ public class GridNavigator : MonoBehaviour
         List<Rect> successors = new List<Rect>();
 
         //check we can move right
-        if(cellID + 1 < currentGrid.cells.Count && cellID % currentGrid.gridArea.x != (currentGrid.gridArea.x - 1))
-        {
-            successors.Add(currentGrid.cells[cellID + 1]);
-        }
-
-        //Check we can move left
-        if(cellID - 1 >= 0 && cellID % currentGrid.gridArea.x != 0)
-        {
-            successors.Add(currentGrid.cells[cellID - 1]);
-        }
-
-        //Check we can move Up
-        if(cellID - 10 >= 0 && cellID % currentGrid.gridArea.y != 0)
-        {
-            successors.Add(currentGrid.cells[cellID - 10]);
-        }
-
-        //Check we can move Down
-        if(cellID + 10 < currentGrid.cells.Count %% cellID % currentGrid.gridArea.y != (currentGrid.gridArea.y - 1))
-        {
-            successors.Add(currentGrid.cells[cellID + 10]);
-        }
-
-        Debug.Log(cellID);
-        Debug.Log(successors.Count);
+        
     }
 }
