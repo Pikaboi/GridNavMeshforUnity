@@ -17,7 +17,7 @@ public class GridNavigator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //GetCurrentCell();
+        GetCurrentCell();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -35,14 +35,14 @@ public class GridNavigator : MonoBehaviour
 
     public void GetCurrentCell()
     {
-        Debug.Log(currentGrid.gridArea);
         for (int i = 0; i < currentGrid.gridArea.x; i++)
         {
             for(int j = 0; j < currentGrid.gridArea.y; j++)
             {
                 if (currentGrid.cells[i,j].Contains(new Vector2(transform.position.x, transform.position.z)))
                 {
-                    CurrentCell = currentGrid.cells[i,j];    
+                    CurrentCell = currentGrid.cells[i,j];
+                    Debug.Log(new Vector2(i, j));
                     //Move();
                     break;
                 }
