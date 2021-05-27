@@ -8,6 +8,7 @@ public class GridNavigator : MonoBehaviour
     float speed;
     Rect CurrentCell;
     Rect Destination;
+    Vector2 cellID;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +43,7 @@ public class GridNavigator : MonoBehaviour
                 if (currentGrid.cells[i,j].Contains(new Vector2(transform.position.x, transform.position.z)))
                 {
                     CurrentCell = currentGrid.cells[i,j];
-                    Debug.Log(new Vector2(i, j));
+                    cellID = new Vector2(i, j);
                     //Move();
                     break;
                 }
