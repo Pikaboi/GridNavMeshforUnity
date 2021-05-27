@@ -8,7 +8,7 @@ public class GridNavigator : MonoBehaviour
     float speed;
     Rect CurrentCell;
     Rect Destination;
-    Vector2 cellID;
+    Vector2Int cellID;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,8 +43,8 @@ public class GridNavigator : MonoBehaviour
                 if (currentGrid.cells[i,j].Contains(new Vector2(transform.position.x, transform.position.z)))
                 {
                     CurrentCell = currentGrid.cells[i,j];
-                    cellID = new Vector2(i, j);
-                    //Move();
+                    cellID = new Vector2Int(i, j);
+                    Move();
                     break;
                 }
             }
@@ -59,7 +59,30 @@ public class GridNavigator : MonoBehaviour
         //Get Successors
         List<Rect> successors = new List<Rect>();
 
+        //check we can move left
+        if(cellID.x -1 >= 0)
+        {
+            successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+        }
+
         //check we can move right
-        
+        if (cellID.x + 1 <= currentGrid.gridArea.x - 1)
+        {
+            successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+        }
+
+        //check we can move Up
+        if (cellID.y + 1 <= currentGrid.gridArea.y - 1)
+        {
+            successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+        }
+
+        //check we can move down
+        if (cellID.y - 1 >= 0)
+        {
+            successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+        }
+
+        Debug.Log(successors.Count);
     }
 }
