@@ -12,13 +12,13 @@ public class GridNavigator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+      
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetCurrentCell();
+        Move();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -27,11 +27,12 @@ public class GridNavigator : MonoBehaviour
         {
             currentGrid = collision.gameObject.GetComponent<GridController>();
             GetCurrentCell();
+            SetDestination(currentGrid.cells[9, 9]);
         }
     }
 
     public void SetDestination(Rect _Destination) {
-        Destination = currentGrid.cells[0,0];
+        Destination = _Destination;
     }
 
     public void GetCurrentCell()
@@ -44,7 +45,6 @@ public class GridNavigator : MonoBehaviour
                 {
                     CurrentCell = currentGrid.cells[i,j];
                     cellID = new Vector2Int(i, j);
-                    Move();
                     break;
                 }
             }
@@ -53,36 +53,67 @@ public class GridNavigator : MonoBehaviour
 
     public void Move()
     {
-        //Yooo A* Alogirithm woooo
-        //g = parent.g + distance between node and parent
-        //h = max {abs(currentx - destx), abs(currenty - desty)}
-        //Get Successors
-        List<Rect> successors = new List<Rect>();
-
-        //check we can move left
-        if(cellID.x -1 >= 0)
+        if (CurrentCell != Destination)
         {
-            successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
-        }
+            GetCurrentCell();
 
-        //check we can move right
-        if (cellID.x + 1 <= currentGrid.gridArea.x - 1)
-        {
-            successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
-        }
+            //Yooo A* Alogirithm woooo
+            //g = parent.g + distance between node and parent
+            //h = max {abs(currentx - destx), abs(currenty - desty)}
+            //Get Successors
+            List<Rect> successors = new List<Rect>();
 
-        //check we can move Up
-        if (cellID.y + 1 <= currentGrid.gridArea.y - 1)
-        {
-            successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
-        }
+            //check we can move left
+            if (cellID.x - 1 >= 0)
+            {
+                successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+            }
 
-        //check we can move down
-        if (cellID.y - 1 >= 0)
-        {
-            successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
-        }
+            //check we can move right
+            if (cellID.x + 1 <= currentGrid.gridArea.x - 1)
+            {
+                successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+            }
 
-        Debug.Log(successors.Count);
+            //check we can move Up
+            if (cellID.y + 1 <= currentGrid.gridArea.y - 1)
+            {
+                successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+            }
+
+            //check we can move down
+            if (cellID.y - 1 >= 0)
+            {
+                successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+            }
+
+            //Get a maximum, infinity since it should work with any combo.
+            float h = Mathf.Infinity;
+            int bestSuccessor = 0;
+
+            for (int i = 0; i < successors.Count; i++)
+            {
+                float manhattan = (Mathf.Abs(successors[i].x - Destination.x) + Mathf.Abs(successors[i].y - Destination.y));
+
+                if (manhattan < h)
+                {
+                    h = manhattan;
+                    bestSuccessor = i;
+                }
+            }
+
+            /*CurrentCell = successors[bestSuccessor];
+
+            Debug.Log(CurrentCell);
+            Debug.Log(Destination);*/
+
+            //Debug.Log(successors[bestSuccessor].center.y - currentGrid.cellSize / 2);
+
+            Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x - currentGrid.cellSize / 2, transform.position.y, successors[bestSuccessor].center.y - currentGrid.cellSize / 2);
+
+            transform.LookAt(lookDir);
+
+            transform.Translate(transform.forward * 50 * Time.deltaTime, Space.World);
+        }
     }
 }
