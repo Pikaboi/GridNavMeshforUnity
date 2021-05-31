@@ -38,12 +38,6 @@ public class GridController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
-
     //Draw the Cells as Gizmos so it is visible to the user in editor
     private void OnDrawGizmos()
     {

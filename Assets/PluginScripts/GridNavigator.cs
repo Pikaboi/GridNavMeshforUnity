@@ -4,22 +4,13 @@ using UnityEngine;
 
 public class GridNavigator : MonoBehaviour
 {
+    public GridTraversal moveType;
+
     GridController currentGrid;
-    float speed;
+    public float speed = 50;
     Rect CurrentCell;
     Rect Destination;
     Vector2Int cellID;
-    // Start is called before the first frame update
-    void Start()
-    {
-      
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Move();
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -27,7 +18,6 @@ public class GridNavigator : MonoBehaviour
         {
             currentGrid = collision.gameObject.GetComponent<GridController>();
             GetCurrentCell();
-            SetDestination(currentGrid.cells[9, 9]);
         }
     }
 
@@ -35,7 +25,7 @@ public class GridNavigator : MonoBehaviour
         Destination = _Destination;
     }
 
-    public void GetCurrentCell()
+    private void GetCurrentCell()
     {
         for (int i = 0; i < currentGrid.gridArea.x; i++)
         {
@@ -55,65 +45,161 @@ public class GridNavigator : MonoBehaviour
     {
         if (CurrentCell != Destination)
         {
-            GetCurrentCell();
-
-            //Yooo A* Alogirithm woooo
-            //g = parent.g + distance between node and parent
-            //h = max {abs(currentx - destx), abs(currenty - desty)}
-            //Get Successors
-            List<Rect> successors = new List<Rect>();
-
-            //check we can move left
-            if (cellID.x - 1 >= 0)
+            switch (moveType)
             {
-                successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+                case GridTraversal.Direction4:
+                    Direction4Move();
+                    break;
+                case GridTraversal.Direction8:
+                    Direction8Move();
+                    break;
             }
-
-            //check we can move right
-            if (cellID.x + 1 <= currentGrid.gridArea.x - 1)
-            {
-                successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
-            }
-
-            //check we can move Up
-            if (cellID.y + 1 <= currentGrid.gridArea.y - 1)
-            {
-                successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
-            }
-
-            //check we can move down
-            if (cellID.y - 1 >= 0)
-            {
-                successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
-            }
-
-            //Get a maximum, infinity since it should work with any combo.
-            float h = Mathf.Infinity;
-            int bestSuccessor = 0;
-
-            for (int i = 0; i < successors.Count; i++)
-            {
-                float manhattan = (Mathf.Abs(successors[i].x - Destination.x) + Mathf.Abs(successors[i].y - Destination.y));
-
-                if (manhattan < h)
-                {
-                    h = manhattan;
-                    bestSuccessor = i;
-                }
-            }
-
-            /*CurrentCell = successors[bestSuccessor];
-
-            Debug.Log(CurrentCell);
-            Debug.Log(Destination);*/
-
-            //Debug.Log(successors[bestSuccessor].center.y - currentGrid.cellSize / 2);
-
-            Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x - currentGrid.cellSize / 2, transform.position.y, successors[bestSuccessor].center.y - currentGrid.cellSize / 2);
-
-            transform.LookAt(lookDir);
-
-            transform.Translate(transform.forward * 50 * Time.deltaTime, Space.World);
         }
+    }
+
+    void Direction4Move()
+    {
+        GetCurrentCell();
+
+        //Yooo A* Alogirithm woooo
+        //g = parent.g + distance between node and parent
+        //h = max {abs(currentx - destx), abs(currenty - desty)}
+        //Get Successors
+        List<Rect> successors = new List<Rect>();
+
+        //check we can move left
+        if (cellID.x - 1 >= 0)
+        {
+            successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+        }
+
+        //check we can move right
+        if (cellID.x + 1 <= currentGrid.gridArea.x - 1)
+        {
+            successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+        }
+
+        //check we can move Up
+        if (cellID.y + 1 <= currentGrid.gridArea.y - 1)
+        {
+            successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+        }
+
+        //check we can move down
+        if (cellID.y - 1 >= 0)
+        {
+            successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+        }
+
+        //Get a maximum, infinity since it should work with any combo.
+        float h = Mathf.Infinity;
+        int bestSuccessor = 0;
+
+        for (int i = 0; i < successors.Count; i++)
+        {
+            float manhattan = (Mathf.Abs(successors[i].x - Destination.x) + Mathf.Abs(successors[i].y - Destination.y));
+
+            if (manhattan < h)
+            {
+                h = manhattan;
+                bestSuccessor = i;
+            }
+        }
+
+        /*CurrentCell = successors[bestSuccessor];
+
+        Debug.Log(CurrentCell);
+        Debug.Log(Destination);*/
+
+        //Debug.Log(successors[bestSuccessor].center.y - currentGrid.cellSize / 2);
+
+        Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x - currentGrid.cellSize / 2, transform.position.y, successors[bestSuccessor].center.y - currentGrid.cellSize / 2);
+
+        transform.LookAt(lookDir);
+
+        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+    }
+
+    void Direction8Move()
+    {
+        GetCurrentCell();
+
+        //Yooo A* Alogirithm woooo
+        //g = parent.g + distance between node and parent
+        //h = max {abs(currentx - destx), abs(currenty - desty)}
+        //Get Successors
+        List<Rect> successors = new List<Rect>();
+
+        //check we can move left
+        if (cellID.x - 1 >= 0)
+        {
+            successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+        }
+
+        //check we can move right
+        if (cellID.x + 1 <= currentGrid.gridArea.x - 1)
+        {
+            successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+        }
+
+        //check we can move Up
+        if (cellID.y + 1 <= currentGrid.gridArea.y - 1)
+        {
+            successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+        }
+
+        //check we can move down
+        if (cellID.y - 1 >= 0)
+        {
+            successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+        }
+
+        //Check we can move Bottom-Left
+        if (cellID.y - 1 >= 0 && cellID.x - 1 >= 0)
+        {
+            successors.Add(currentGrid.cells[cellID.x - 1, cellID.y - 1]);
+        }
+
+        //Check we can move Bottom-Right
+        if (cellID.y - 1 >= 0 && cellID.x + 1 <= currentGrid.gridArea.x - 1)
+        {
+            successors.Add(currentGrid.cells[cellID.x + 1, cellID.y - 1]);
+        }
+
+        //Check we can move Top-Left
+        if (cellID.y + 1 <= currentGrid.gridArea.y - 1 && cellID.x - 1 >= 0)
+        {
+            successors.Add(currentGrid.cells[cellID.x - 1, cellID.y + 1]);
+        }
+
+        //Check we can move Top-Right
+        if (cellID.y + 1 <= currentGrid.gridArea.y - 1 && cellID.x + 1 <= currentGrid.gridArea.x - 1)
+        {
+            successors.Add(currentGrid.cells[cellID.x + 1, cellID.y + 1]);
+        }
+
+        //Get a maximum, infinity since it should work with any combo.
+        float h = Mathf.Infinity;
+        int bestSuccessor = 0;
+
+        for (int i = 0; i < successors.Count; i++)
+        {
+            float dx = Mathf.Abs(successors[i].x - Destination.x);
+            float dy = Mathf.Abs(successors[i].y - Destination.y);
+
+            float Diagonal = (dx + dy) + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy);
+
+            if (Diagonal < h)
+            {
+                h = Diagonal;
+                bestSuccessor = i;
+            }
+        }
+
+        Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x - currentGrid.cellSize / 2, transform.position.y, successors[bestSuccessor].center.y - currentGrid.cellSize / 2);
+
+        transform.LookAt(lookDir);
+
+        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
     }
 }
