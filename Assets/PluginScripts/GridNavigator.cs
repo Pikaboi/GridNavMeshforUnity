@@ -6,7 +6,7 @@ public class GridNavigator : MonoBehaviour
 {
     public GridTraversal moveType;
 
-    GridController currentGrid;
+    public GridController currentGrid;
     public float speed = 50;
     Rect CurrentCell;
     Rect Destination;

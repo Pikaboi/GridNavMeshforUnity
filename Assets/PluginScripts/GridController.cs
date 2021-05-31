@@ -25,7 +25,7 @@ public class GridController : MonoBehaviour
 
         //We clear cells from an old initialization
         cells = new Rect[(int)gridArea.x, (int)gridArea.y];
-
+        
         //Generate Each cell
         for(int i = 0; i < gridArea.x; i++)
         {
