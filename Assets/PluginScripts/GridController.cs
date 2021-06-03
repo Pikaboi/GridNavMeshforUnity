@@ -33,7 +33,7 @@ public class GridController : MonoBehaviour
             {
                 //Set the cells position and size
                 //cells.Add(new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x - cellSize / 2 , z - cellSize / 2), new Vector2(cellSize, cellSize)));
-                cells[i, j] = new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x - cellSize / 2, z - cellSize / 2), new Vector2(cellSize, cellSize));
+                cells[i, j] = new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x, z), new Vector2(cellSize, cellSize));
             }
         }
     }
@@ -45,7 +45,7 @@ public class GridController : MonoBehaviour
         {
             for (int j = 0; j < gridArea.y; j++)
             {
-                Vector3 center = new Vector3(cells[i, j].x, 0.0f, cells[i, j].y);
+                Vector3 center = new Vector3(cells[i, j].center.x, 0.0f, cells[i, j].center.y);
                 Vector3 size = new Vector3(cellSize, 1.0f, cellSize);
                 Gizmos.DrawWireCube(transform.position + center, size);
             }

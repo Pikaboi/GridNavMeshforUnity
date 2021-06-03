@@ -25,7 +25,6 @@ public class ExampleScript : MonoBehaviour
     {
         if(GridNavigator.currentGrid != null)
         {
-            Debug.Log(GridNavigator.currentGrid.cells.Length);
             GridNavigator.SetDestination(GridNavigator.currentGrid.cells[(int)dest.x - 1, (int)dest.y - 1]);
         }
     }
