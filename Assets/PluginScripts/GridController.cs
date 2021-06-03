@@ -9,6 +9,8 @@ public class GridController : MonoBehaviour
     public ShapeType cellShape = ShapeType.Square;
 
     public Rect[,] cells = new Rect[10,10];
+
+    public bool is_Enabled = false;
     
     // Start is called before the first frame update
     void Start()
@@ -41,13 +43,16 @@ public class GridController : MonoBehaviour
     //Draw the Cells as Gizmos so it is visible to the user in editor
     private void OnDrawGizmos()
     {
-        for (int i = 0; i < gridArea.x; i++)
+        if (is_Enabled == true)
         {
-            for (int j = 0; j < gridArea.y; j++)
+            for (int i = 0; i < gridArea.x; i++)
             {
-                Vector3 center = new Vector3(cells[i, j].x, 0.0f, cells[i, j].y);
-                Vector3 size = new Vector3(cellSize, 1.0f, cellSize);
-                Gizmos.DrawWireCube(transform.position + center, size);
+                for (int j = 0; j < gridArea.y; j++)
+                {
+                    Vector3 center = new Vector3(cells[i, j].x, 0.0f, cells[i, j].y);
+                    Vector3 size = new Vector3(cellSize, 1.0f, cellSize);
+                    Gizmos.DrawWireCube(transform.position + center, size);
+                }
             }
         }
     }

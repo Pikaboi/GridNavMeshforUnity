@@ -38,5 +38,6 @@ public class GridNavMeshEditor : Editor
         GridController cont = (GridController)target;
         //Initialize the grid
         cont.Initialize();
+        cont.is_Enabled = true;
     }
 }
