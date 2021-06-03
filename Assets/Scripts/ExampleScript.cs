@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExampleScript : MonoBehaviour
 {
-    GridNavigator GridNavigator;
+    public GridNavigator GridNavigator;
     public Vector2 dest;
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,8 @@ public class ExampleScript : MonoBehaviour
     {
         if(GridNavigator.currentGrid != null)
         {
-            GridNavigator.SetDestination(GridNavigator.currentGrid.cells[(int)dest.x, (int)dest.y]);
+            Debug.Log(GridNavigator.currentGrid.cells.Length);
+            GridNavigator.SetDestination(GridNavigator.currentGrid.cells[(int)dest.x - 1, (int)dest.y - 1]);
         }
     }
 }
