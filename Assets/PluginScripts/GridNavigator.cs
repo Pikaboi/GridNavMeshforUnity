@@ -202,4 +202,13 @@ public class GridNavigator : MonoBehaviour
 
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
     }
+
+    void MoveToDestCenter()
+    {
+        Vector3 lookDir = new Vector3(Destination.center.x, transform.position.y, Destination.center.y);
+
+        transform.LookAt(lookDir);
+
+        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+    }
 }
