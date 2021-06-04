@@ -113,7 +113,7 @@ public class GridNavigator : MonoBehaviour
 
         //Debug.Log(successors[bestSuccessor].center.y - currentGrid.cellSize / 2);
 
-        Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x + currentGrid.cellSize / 2, transform.position.y, successors[bestSuccessor].center.y + currentGrid.cellSize / 2);
+        Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
 
         transform.LookAt(lookDir);
 
@@ -196,7 +196,7 @@ public class GridNavigator : MonoBehaviour
             }
         }
 
-        Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x - currentGrid.cellSize / 2, transform.position.y, successors[bestSuccessor].center.y - currentGrid.cellSize / 2);
+        Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
 
         transform.LookAt(lookDir);
 

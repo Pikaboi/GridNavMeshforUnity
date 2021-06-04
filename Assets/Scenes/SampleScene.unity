@@ -357,7 +357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveType: 1
   currentGrid: {fileID: 0}
-  speed: 50
+  speed: 200
 --- !u!114 &495156189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &818189589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveType: 0
   currentGrid: {fileID: 0}
-  speed: 50
+  speed: 200
 --- !u!54 &818189590
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridNavigator: {fileID: 0}
-  dest: {x: 8, y: 8}
+  dest: {x: 8, y: 12}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
