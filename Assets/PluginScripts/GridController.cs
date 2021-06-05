@@ -38,6 +38,23 @@ public class GridController : MonoBehaviour
         }
     }
 
+    public bool FindObstacle(int _x, int _y)
+    {
+        Vector3 Overlap = new Vector3(cells[_x, _y].center.x, transform.position.y, cells[_x, _y].center.y);
+        Vector3 OverlapSize = new Vector3(cellSize / 2, cellSize / 2, cellSize / 2);
+        Collider[] colliders = Physics.OverlapBox(Overlap, OverlapSize, Quaternion.identity);
+
+        foreach(Collider co in colliders)
+        {
+            if(co.GetComponent<GridNavObstacle>() != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     //Draw the Cells as Gizmos so it is visible to the user in editor
     private void OnDrawGizmos()
     {

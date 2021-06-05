@@ -70,26 +70,44 @@ public class GridNavigator : MonoBehaviour
         //check we can move left
         if (cellID.x - 1 >= 0)
         {
-            successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+            bool obs = currentGrid.FindObstacle(cellID.x - 1, cellID.y);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+            }
         }
 
         //check we can move right
         if (cellID.x + 1 <= currentGrid.gridArea.x - 1)
         {
-            successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+            bool obs = currentGrid.FindObstacle(cellID.x + 1, cellID.y);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+            }
         }
 
         //check we can move Up
         if (cellID.y + 1 <= currentGrid.gridArea.y - 1)
         {
-            successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+            bool obs = currentGrid.FindObstacle(cellID.x, cellID.y + 1);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+            }
         }
 
         //check we can move down
         if (cellID.y - 1 >= 0)
         {
-            successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+            bool obs = currentGrid.FindObstacle(cellID.x, cellID.y - 1);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+            }
         }
+
+        Debug.Log(successors.Count);
 
         //Get a maximum, infinity since it should work with any combo.
         float h = Mathf.Infinity;
@@ -133,49 +151,81 @@ public class GridNavigator : MonoBehaviour
         //check we can move left
         if (cellID.x - 1 >= 0)
         {
-            successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+            bool obs = currentGrid.FindObstacle(cellID.x - 1, cellID.y);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+            }
         }
 
         //check we can move right
         if (cellID.x + 1 <= currentGrid.gridArea.x - 1)
         {
-            successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+            bool obs = currentGrid.FindObstacle(cellID.x + 1, cellID.y);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+            }
         }
 
         //check we can move Up
         if (cellID.y + 1 <= currentGrid.gridArea.y - 1)
         {
-            successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+            bool obs = currentGrid.FindObstacle(cellID.x, cellID.y + 1);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+            }
         }
 
         //check we can move down
         if (cellID.y - 1 >= 0)
         {
-            successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+            bool obs = currentGrid.FindObstacle(cellID.x, cellID.y - 1);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+            }
         }
 
         //Check we can move Bottom-Left
         if (cellID.y - 1 >= 0 && cellID.x - 1 >= 0)
         {
-            successors.Add(currentGrid.cells[cellID.x - 1, cellID.y - 1]);
+            bool obs = currentGrid.FindObstacle(cellID.x - 1, cellID.y - 1);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x - 1, cellID.y - 1]);
+            }
         }
 
         //Check we can move Bottom-Right
         if (cellID.y - 1 >= 0 && cellID.x + 1 <= currentGrid.gridArea.x - 1)
         {
-            successors.Add(currentGrid.cells[cellID.x + 1, cellID.y - 1]);
+            bool obs = currentGrid.FindObstacle(cellID.x + 1, cellID.y - 1);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x + 1, cellID.y - 1]);
+            }
         }
 
         //Check we can move Top-Left
         if (cellID.y + 1 <= currentGrid.gridArea.y - 1 && cellID.x - 1 >= 0)
         {
-            successors.Add(currentGrid.cells[cellID.x - 1, cellID.y + 1]);
+            bool obs = currentGrid.FindObstacle(cellID.x - 1, cellID.y + 1);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x - 1, cellID.y + 1]);
+            }
         }
 
         //Check we can move Top-Right
         if (cellID.y + 1 <= currentGrid.gridArea.y - 1 && cellID.x + 1 <= currentGrid.gridArea.x - 1)
         {
-            successors.Add(currentGrid.cells[cellID.x + 1, cellID.y + 1]);
+            bool obs = currentGrid.FindObstacle(cellID.x + 1, cellID.y + 1);
+            if (!obs)
+            {
+                successors.Add(currentGrid.cells[cellID.x + 1, cellID.y + 1]);
+            }
         }
 
         //Get a maximum, infinity since it should work with any combo.
