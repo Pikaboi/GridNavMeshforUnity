@@ -50,6 +50,11 @@ public class GridController : MonoBehaviour
             {
                 return true;
             }
+
+            /*if(co.GetComponent<GridNavigator>() != null)
+            {
+                return true;
+            }*/
         }
 
         return false;

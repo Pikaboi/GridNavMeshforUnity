@@ -10,6 +10,7 @@ public class GridNavigator : MonoBehaviour
     public float speed = 50;
     Rect CurrentCell;
     Rect Destination;
+    Rect DestCenter;
     Vector2Int cellID;
 
     private void OnCollisionEnter(Collision collision)
@@ -23,6 +24,7 @@ public class GridNavigator : MonoBehaviour
 
     public void SetDestination(Rect _Destination) {
         Destination = _Destination;
+        DestCenter = new Rect(Destination.center, Destination.size / 2);
     }
 
     private void GetCurrentCell()
@@ -43,6 +45,7 @@ public class GridNavigator : MonoBehaviour
 
     public void Move()
     {
+        //Move with A* Algorithm
         if (CurrentCell != Destination)
         {
             switch (moveType)
@@ -54,6 +57,10 @@ public class GridNavigator : MonoBehaviour
                     Direction8Move();
                     break;
             }
+        } //Move to center now that it has arrived 
+        else if (!DestCenter.Contains(transform.position))
+        {
+            MoveToDestCenter();
         }
     }
 
