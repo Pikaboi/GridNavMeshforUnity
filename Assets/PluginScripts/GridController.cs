@@ -46,7 +46,7 @@ public class GridController : MonoBehaviour
 
         foreach(Collider co in colliders)
         {
-            if(co.GetComponent<GridNavObstacle>() != null)
+            if (co.GetComponent<GridNavObstacle>() != null && co.GetComponent<GridNavObstacle>().is_Obstacle == true)
             {
                 return true;
             }
@@ -58,6 +58,27 @@ public class GridController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public int GetCost(int _x, int _y)
+    {
+        Vector3 Overlap = new Vector3(cells[_x, _y].center.x, transform.position.y, cells[_x, _y].center.y);
+        Vector3 OverlapSize = new Vector3(cellSize / 2, cellSize / 2, cellSize / 2);
+        Collider[] colliders = Physics.OverlapBox(Overlap, OverlapSize, Quaternion.identity);
+
+        int maxCost = 0;
+
+        //This checks in case the user places multiple costs in an area, preventing any issues
+        //It will simply take the largest cost
+        foreach (Collider co in colliders)
+        {
+            if(co.GetComponent<GridNavObstacle>() != null && co.GetComponent<GridNavObstacle>().navCost > maxCost)
+            {
+                maxCost = co.GetComponent<GridNavObstacle>().navCost;
+            }
+
+        }
+        return maxCost;
     }
 
     //Draw the Cells as Gizmos so it is visible to the user in editor

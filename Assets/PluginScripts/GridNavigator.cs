@@ -73,6 +73,7 @@ public class GridNavigator : MonoBehaviour
         //h = max {abs(currentx - destx), abs(currenty - desty)}
         //Get Successors
         List<Rect> successors = new List<Rect>();
+        List<int> successorCost = new List<int>();
 
         //check we can move left
         if (cellID.x - 1 >= 0)
@@ -81,6 +82,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+                successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y));
             }
         }
 
@@ -91,6 +93,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+                successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y));
             }
         }
 
@@ -101,6 +104,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+                successorCost.Add(currentGrid.GetCost(cellID.x, cellID.y + 1));
             }
         }
 
@@ -111,6 +115,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+                successorCost.Add(currentGrid.GetCost(cellID.x, cellID.y - 1));
             }
         }
 
@@ -125,21 +130,13 @@ public class GridNavigator : MonoBehaviour
 
         for (int i = 0; i < successors.Count; i++)
         {
-            float manhattan = (Mathf.Abs(successors[i].x - Destination.x) + Mathf.Abs(successors[i].y - Destination.y));
-
+            float manhattan = (Mathf.Abs(successors[i].x - Destination.x) + Mathf.Abs(successors[i].y - Destination.y)) + successorCost[i];
             if (manhattan < h)
             {
                 h = manhattan;
                 bestSuccessor = i;
             }
         }
-
-        /*CurrentCell = successors[bestSuccessor];
-
-        Debug.Log(CurrentCell);
-        Debug.Log(Destination);*/
-
-        //Debug.Log(successors[bestSuccessor].center.y - currentGrid.cellSize / 2);
 
         Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
 
@@ -157,6 +154,7 @@ public class GridNavigator : MonoBehaviour
         //h = max {abs(currentx - destx), abs(currenty - desty)}
         //Get Successors
         List<Rect> successors = new List<Rect>();
+        List<int> successorCost = new List<int>();
 
         //check we can move left
         if (cellID.x - 1 >= 0)
@@ -165,6 +163,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+                successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y));
             }
         }
 
@@ -175,6 +174,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+                successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y));
             }
         }
 
@@ -185,6 +185,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+                successorCost.Add(currentGrid.GetCost(cellID.x, cellID.y + 1));
             }
         }
 
@@ -195,6 +196,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+                successorCost.Add(currentGrid.GetCost(cellID.x, cellID.y - 1));
             }
         }
 
@@ -205,6 +207,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x - 1, cellID.y - 1]);
+                successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y - 1));
             }
         }
 
@@ -215,6 +218,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x + 1, cellID.y - 1]);
+                successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y - 1));
             }
         }
 
@@ -225,6 +229,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x - 1, cellID.y + 1]);
+                successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y + 1));
             }
         }
 
@@ -235,6 +240,7 @@ public class GridNavigator : MonoBehaviour
             if (!obs)
             {
                 successors.Add(currentGrid.cells[cellID.x + 1, cellID.y + 1]);
+                successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y + 1));
             }
         }
 
@@ -247,7 +253,7 @@ public class GridNavigator : MonoBehaviour
             float dx = Mathf.Abs(successors[i].x - Destination.x);
             float dy = Mathf.Abs(successors[i].y - Destination.y);
 
-            float Diagonal = (dx + dy) + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy);
+            float Diagonal = (dx + dy) + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy) + successorCost[i];
 
             if (Diagonal < h)
             {
