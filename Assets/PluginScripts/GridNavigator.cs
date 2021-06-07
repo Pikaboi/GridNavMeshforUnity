@@ -17,6 +17,7 @@ public class GridNavigator : MonoBehaviour
     {
         if(collision.gameObject.GetComponent<GridController>() != null)
         {
+            //Get the grid and current cell on contact
             currentGrid = collision.gameObject.GetComponent<GridController>();
             GetCurrentCell();
         }
@@ -24,6 +25,7 @@ public class GridNavigator : MonoBehaviour
 
     public void SetDestination(Rect _Destination) {
         Destination = _Destination;
+        //Get the center of the destination
         DestCenter = new Rect(Destination.center, Destination.size / 2);
     }
 
@@ -66,9 +68,10 @@ public class GridNavigator : MonoBehaviour
 
     void Direction4Move()
     {
+        //Get the cell we are currently on
         GetCurrentCell();
 
-        //Yooo A* Alogirithm woooo
+        //A* Alogirithm
         //g = parent.g + distance between node and parent
         //h = max {abs(currentx - destx), abs(currenty - desty)}
         //Get Successors
@@ -119,6 +122,7 @@ public class GridNavigator : MonoBehaviour
             }
         }
 
+        //If we have no options, dont move
         if(successors.Count == 0)
         {
             return;
@@ -138,6 +142,7 @@ public class GridNavigator : MonoBehaviour
             }
         }
 
+        //Look towards destination and translate
         Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
 
         transform.LookAt(lookDir);
@@ -147,11 +152,12 @@ public class GridNavigator : MonoBehaviour
 
     void Direction8Move()
     {
+        //Get current cell
         GetCurrentCell();
 
-        //Yooo A* Alogirithm woooo
+        //A* Alogirithm
         //g = parent.g + distance between node and parent
-        //h = max {abs(currentx - destx), abs(currenty - desty)}
+        //h = Distance * (x length + y length) + (Angled Distance - 2 * Distance) * min(x length, y length)
         //Get Successors
         List<Rect> successors = new List<Rect>();
         List<int> successorCost = new List<int>();
@@ -244,6 +250,12 @@ public class GridNavigator : MonoBehaviour
             }
         }
 
+        //If we have no options, dont move
+        if (successors.Count == 0)
+        {
+            return;
+        }
+
         //Get a maximum, infinity since it should work with any combo.
         float h = Mathf.Infinity;
         int bestSuccessor = 0;
@@ -262,6 +274,7 @@ public class GridNavigator : MonoBehaviour
             }
         }
 
+        //Look in direction of movement and translate
         Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
 
         transform.LookAt(lookDir);
@@ -269,6 +282,7 @@ public class GridNavigator : MonoBehaviour
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
     }
 
+    //Moves the player closer to the center of its destination before stopping
     void MoveToDestCenter()
     {
         Vector3 lookDir = new Vector3(Destination.center.x, transform.position.y, Destination.center.y);

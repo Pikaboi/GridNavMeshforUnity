@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+//Movement types for traversal
 public enum GridTraversal
 {
     Direction4,
@@ -13,11 +14,13 @@ public enum GridTraversal
 [CanEditMultipleObjects]
 public class GridNavigatorEditor : Editor
 {
+    //Get variables serialized
     SerializedProperty MovementTypeProp;
     SerializedProperty SpeedProp;
 
     private void OnEnable()
     {
+        //Attached them to the correct property
         MovementTypeProp = serializedObject.FindProperty("moveType");
         SpeedProp = serializedObject.FindProperty("speed");
     }

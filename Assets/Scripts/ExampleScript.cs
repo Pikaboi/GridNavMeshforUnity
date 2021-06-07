@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ExampleScript : MonoBehaviour
 {
+    /* TEST SCRIPT
+     * NOT PART OF PLUGIN
+     */
+
     public GridNavigator GridNavigator;
     public Vector2 dest;
     // Start is called before the first frame update

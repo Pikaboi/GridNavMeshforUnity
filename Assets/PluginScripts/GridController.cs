@@ -13,6 +13,7 @@ public class GridController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Always initialize on start
         Initialize();
     }
 
@@ -40,17 +41,21 @@ public class GridController : MonoBehaviour
 
     public bool FindObstacle(int _x, int _y, GridNavigator _Navigator)
     {
+        //Set values for the overlap box
         Vector3 Overlap = new Vector3(cells[_x, _y].center.x, transform.position.y, cells[_x, _y].center.y);
         Vector3 OverlapSize = new Vector3(cellSize / 2, cellSize / 2, cellSize / 2);
+        //Find all colliders in the cells space
         Collider[] colliders = Physics.OverlapBox(Overlap, OverlapSize, Quaternion.identity);
 
         foreach(Collider co in colliders)
         {
+            //Check if a collided object is an obstacle
             if (co.GetComponent<GridNavObstacle>() != null && co.GetComponent<GridNavObstacle>().is_Obstacle == true)
             {
                 return true;
             }
 
+            //Check if its another Navigator
             if(co.GetComponent<GridNavigator>() != null && co.GetComponent<GridNavigator>() != _Navigator)
             {
                 return true;
@@ -62,14 +67,16 @@ public class GridController : MonoBehaviour
 
     public int GetCost(int _x, int _y)
     {
+        //Get location and size for overlap box
         Vector3 Overlap = new Vector3(cells[_x, _y].center.x, transform.position.y, cells[_x, _y].center.y);
         Vector3 OverlapSize = new Vector3(cellSize / 2, cellSize / 2, cellSize / 2);
+        //Check for colliders in the cell
         Collider[] colliders = Physics.OverlapBox(Overlap, OverlapSize, Quaternion.identity);
 
         int maxCost = 0;
 
         //This checks in case the user places multiple costs in an area, preventing any issues
-        //It will simply take the largest cost
+        //It will simply take the largest cost on all objects
         foreach (Collider co in colliders)
         {
             if(co.GetComponent<GridNavObstacle>() != null && co.GetComponent<GridNavObstacle>().navCost > maxCost)
