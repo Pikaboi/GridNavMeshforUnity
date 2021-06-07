@@ -38,7 +38,7 @@ public class GridController : MonoBehaviour
         }
     }
 
-    public bool FindObstacle(int _x, int _y)
+    public bool FindObstacle(int _x, int _y, GridNavigator _Navigator)
     {
         Vector3 Overlap = new Vector3(cells[_x, _y].center.x, transform.position.y, cells[_x, _y].center.y);
         Vector3 OverlapSize = new Vector3(cellSize / 2, cellSize / 2, cellSize / 2);
@@ -51,10 +51,10 @@ public class GridController : MonoBehaviour
                 return true;
             }
 
-            /*if(co.GetComponent<GridNavigator>() != null)
+            if(co.GetComponent<GridNavigator>() != null && co.GetComponent<GridNavigator>() != _Navigator)
             {
                 return true;
-            }*/
+            }
         }
 
         return false;
@@ -73,4 +73,5 @@ public class GridController : MonoBehaviour
             }
         }
     }
+
 }
