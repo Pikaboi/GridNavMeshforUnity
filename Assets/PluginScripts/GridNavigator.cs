@@ -114,6 +114,11 @@ public class GridNavigator : MonoBehaviour
             }
         }
 
+        if(successors.Count == 0)
+        {
+            return;
+        }
+
         //Get a maximum, infinity since it should work with any combo.
         float h = Mathf.Infinity;
         int bestSuccessor = 0;
