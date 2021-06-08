@@ -310,4 +310,15 @@ public class GridNavigator : MonoBehaviour
 
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
     }
+
+    private void OnDrawGizmos()
+    {
+        foreach(Rect r in openList)
+        {
+            Gizmos.color = Color.red;
+            Vector3 center = new Vector3(r.center.x, 0.0f, r.center.y);
+            Vector3 size = new Vector3(100.0f, 1.0f, 100.0f);
+            Gizmos.DrawWireCube(center, size);
+        }
+    }
 }
