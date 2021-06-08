@@ -31,10 +31,14 @@ public class ExampleScript : MonoBehaviour
         {
             GridNavigator.SetDestination(GridNavigator.currentGrid.cells[(int)dest.x - 1, (int)dest.y - 1]);
         }
+    }
 
-        if(collision.gameObject.tag == "Respawn")
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Respawn")
         {
-            GridNavigator.SetDestination(GridNavigator.currentGrid.cells[1, 1]);
+            GridNavigator.SetDestination(GridNavigator.currentGrid.cells[0, 0]);
+            dest = new Vector2(1, 1);
         }
     }
 }

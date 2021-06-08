@@ -25,9 +25,12 @@ public class GridNavigator : MonoBehaviour
     }
 
     public void SetDestination(Rect _Destination) {
+        //We clear the openlist so it doesnt get stuck on places its been
+        openList.Clear();
         Destination = _Destination;
         //Get the center of the destination
         DestCenter = new Rect(Destination.center, Destination.size / 2);
+        Debug.Log(openList.Count);
     }
 
     public void SetDestination(int _gridX, int _gridY)
