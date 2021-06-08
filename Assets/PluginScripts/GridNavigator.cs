@@ -12,6 +12,7 @@ public class GridNavigator : MonoBehaviour
     Rect Destination;
     Rect DestCenter;
     Vector2Int cellID;
+    List<Rect> openList = new List<Rect>();
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -31,6 +32,7 @@ public class GridNavigator : MonoBehaviour
 
     public void SetDestination(int _gridX, int _gridY)
     {
+        openList.Clear();
         Destination = currentGrid.cells[_gridX, _gridY];
         //Get the center of the destination
         DestCenter = new Rect(Destination.center, Destination.size / 2);
@@ -142,12 +144,16 @@ public class GridNavigator : MonoBehaviour
         for (int i = 0; i < successors.Count; i++)
         {
             float manhattan = (Mathf.Abs(successors[i].x - Destination.x) + Mathf.Abs(successors[i].y - Destination.y)) + successorCost[i];
-            if (manhattan < h)
+            if (manhattan < h && !openList.Contains(successors[i]))
             {
                 h = manhattan;
                 bestSuccessor = i;
             }
         }
+
+        Debug.Log(Destination);
+
+        openList.Add(CurrentCell);
 
         //Look towards destination and translate
         Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
