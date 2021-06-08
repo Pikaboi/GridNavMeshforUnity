@@ -31,5 +31,10 @@ public class ExampleScript : MonoBehaviour
         {
             GridNavigator.SetDestination(GridNavigator.currentGrid.cells[(int)dest.x - 1, (int)dest.y - 1]);
         }
+
+        if(collision.gameObject.tag == "Respawn")
+        {
+            GridNavigator.SetDestination(GridNavigator.currentGrid.cells[1, 1]);
+        }
     }
 }

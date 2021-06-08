@@ -32,6 +32,7 @@ public class GridNavigator : MonoBehaviour
 
     public void SetDestination(int _gridX, int _gridY)
     {
+        //We clear the openlist so it doesnt get stuck on places its been
         openList.Clear();
         Destination = currentGrid.cells[_gridX, _gridY];
         //Get the center of the destination
@@ -151,8 +152,7 @@ public class GridNavigator : MonoBehaviour
             }
         }
 
-        Debug.Log(Destination);
-
+        //Add the current cell to the open list so we dont backtrack
         openList.Add(CurrentCell);
 
         //Look towards destination and translate
@@ -280,12 +280,15 @@ public class GridNavigator : MonoBehaviour
 
             float Diagonal = (dx + dy) + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy) + successorCost[i];
 
-            if (Diagonal < h)
+            if (Diagonal < h && !openList.Contains(successors[i]))
             {
                 h = Diagonal;
                 bestSuccessor = i;
             }
         }
+
+        //Add the current cell to the open list so we dont backtrack
+        openList.Add(CurrentCell);
 
         //Look in direction of movement and translate
         Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
