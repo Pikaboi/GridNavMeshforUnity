@@ -65,6 +65,32 @@ public class GridController : MonoBehaviour
         return false;
     }
 
+    public bool FindObstacle(Rect _cell, GridNavigator _Navigator)
+    {
+        //Set values for the overlap box
+        Vector3 Overlap = new Vector3(_cell.center.x, transform.position.y, _cell.center.y);
+        Vector3 OverlapSize = new Vector3(cellSize / 2, cellSize / 2, cellSize / 2);
+        //Find all colliders in the cells space
+        Collider[] colliders = Physics.OverlapBox(Overlap, OverlapSize, Quaternion.identity);
+
+        foreach (Collider co in colliders)
+        {
+            //Check if a collided object is an obstacle
+            if (co.GetComponent<GridNavObstacle>() != null && co.GetComponent<GridNavObstacle>().is_Obstacle == true)
+            {
+                return true;
+            }
+
+            //Check if its another Navigator
+            if (co.GetComponent<GridNavigator>() != null && co.GetComponent<GridNavigator>() != _Navigator)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public int GetCost(int _x, int _y)
     {
         //Get location and size for overlap box
@@ -87,6 +113,30 @@ public class GridController : MonoBehaviour
         }
         return maxCost;
     }
+
+    public int GetCost(Rect _cell)
+    {
+        //Get location and size for overlap box
+        Vector3 Overlap = new Vector3(_cell.center.x, transform.position.y, _cell.center.y);
+        Vector3 OverlapSize = new Vector3(cellSize / 2, cellSize / 2, cellSize / 2);
+        //Check for colliders in the cell
+        Collider[] colliders = Physics.OverlapBox(Overlap, OverlapSize, Quaternion.identity);
+
+        int maxCost = 0;
+
+        //This checks in case the user places multiple costs in an area, preventing any issues
+        //It will simply take the largest cost on all objects
+        foreach (Collider co in colliders)
+        {
+            if (co.GetComponent<GridNavObstacle>() != null && co.GetComponent<GridNavObstacle>().navCost > maxCost)
+            {
+                maxCost = co.GetComponent<GridNavObstacle>().navCost;
+            }
+
+        }
+        return maxCost;
+    }
+
 
     //Draw the Cells as Gizmos so it is visible to the user in editor
     private void OnDrawGizmos()

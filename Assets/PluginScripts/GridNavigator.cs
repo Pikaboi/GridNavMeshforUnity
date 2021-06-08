@@ -29,6 +29,13 @@ public class GridNavigator : MonoBehaviour
         DestCenter = new Rect(Destination.center, Destination.size / 2);
     }
 
+    public void SetDestination(int _gridX, int _gridY)
+    {
+        Destination = currentGrid.cells[_gridX, _gridY];
+        //Get the center of the destination
+        DestCenter = new Rect(Destination.center, Destination.size / 2);
+    }
+
     private void GetCurrentCell()
     {
         for (int i = 0; i < currentGrid.gridArea.x; i++)
