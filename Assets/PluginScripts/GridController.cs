@@ -141,13 +141,16 @@ public class GridController : MonoBehaviour
     //Draw the Cells as Gizmos so it is visible to the user in editor
     private void OnDrawGizmos()
     {
-        for (int i = 0; i < gridArea.x; i++)
+        if (cells.Length == (gridArea.x * gridArea.y))
         {
-            for (int j = 0; j < gridArea.y; j++)
+            for (int i = 0; i < gridArea.x; i++)
             {
-                Vector3 center = new Vector3(cells[i, j].center.x, 0.0f, cells[i, j].center.y);
-                Vector3 size = new Vector3(cellSize, 1.0f, cellSize);
-                Gizmos.DrawWireCube(transform.position + center, size);
+                for (int j = 0; j < gridArea.y; j++)
+                {
+                    Vector3 center = new Vector3(cells[i, j].center.x, 0.0f, cells[i, j].center.y);
+                    Vector3 size = new Vector3(cellSize, 1.0f, cellSize);
+                    Gizmos.DrawWireCube(transform.position + center, size);
+                }
             }
         }
     }

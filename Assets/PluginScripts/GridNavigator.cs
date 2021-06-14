@@ -12,7 +12,7 @@ public class GridNavigator : MonoBehaviour
     Rect Destination;
     Rect DestCenter;
     Vector2Int cellID;
-    List<Rect> openList = new List<Rect>();
+    List<Rect> closedList = new List<Rect>();
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -25,18 +25,18 @@ public class GridNavigator : MonoBehaviour
     }
 
     public void SetDestination(Rect _Destination) {
-        //We clear the openlist so it doesnt get stuck on places its been
-        openList.Clear();
+        //We clear the closedList so it doesnt get stuck on places its been
+        closedList.Clear();
         Destination = _Destination;
         //Get the center of the destination
-        DestCenter = new Rect(Destination.center, Destination.size / 2);
-        Debug.Log(openList.Count);
+        DestCenter = new Rect(Destination.center, Destination.size);
+        Debug.Log(closedList.Count);
     }
 
     public void SetDestination(int _gridX, int _gridY)
     {
-        //We clear the openlist so it doesnt get stuck on places its been
-        openList.Clear();
+        //We clear the closedList so it doesnt get stuck on places its been
+        closedList.Clear();
         Destination = currentGrid.cells[_gridX, _gridY];
         //Get the center of the destination
         DestCenter = new Rect(Destination.center, Destination.size / 2);
@@ -148,7 +148,8 @@ public class GridNavigator : MonoBehaviour
         for (int i = 0; i < successors.Count; i++)
         {
             float manhattan = (Mathf.Abs(successors[i].x - Destination.x) + Mathf.Abs(successors[i].y - Destination.y)) + successorCost[i];
-            if (manhattan < h && !openList.Contains(successors[i]))
+
+            if (manhattan <= h && !closedList.Contains(successors[i]))
             {
                 h = manhattan;
                 bestSuccessor = i;
@@ -156,7 +157,7 @@ public class GridNavigator : MonoBehaviour
         }
 
         //Add the current cell to the open list so we dont backtrack
-        openList.Add(CurrentCell);
+        closedList.Add(CurrentCell);
 
         //Look towards destination and translate
         Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
@@ -295,7 +296,7 @@ public class GridNavigator : MonoBehaviour
 
             float Diagonal = (dx + dy) + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy) + successorCost[i];
 
-            if (Diagonal < h && !openList.Contains(successors[i]))
+            if (Diagonal <= h && !closedList.Contains(successors[i]))
             {
                 h = Diagonal;
                 bestSuccessor = i;
@@ -303,7 +304,7 @@ public class GridNavigator : MonoBehaviour
         }
 
         //Add the current cell to the open list so we dont backtrack
-        openList.Add(CurrentCell);
+        closedList.Add(CurrentCell);
 
         //Look in direction of movement and translate
         Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
@@ -327,18 +328,12 @@ public class GridNavigator : MonoBehaviour
     {
         if (currentGrid != null)
         {
-            foreach (Rect r in currentGrid.cells)
+            foreach (Rect r in closedList)
             {
                 Gizmos.color = Color.red;
-
-                bool obs = currentGrid.FindObstacle(r, this);
-
-                if (obs)
-                {
                     Vector3 center = new Vector3(r.center.x, 0.0f, r.center.y);
                     Vector3 size = new Vector3(100.0f, 1.0f, 100.0f);
                     Gizmos.DrawWireCube(center, size);
-                }
             }
         }
     }
