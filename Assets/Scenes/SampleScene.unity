@@ -484,8 +484,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376388061}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.6, y: 50, z: 501}
-  m_LocalScale: {x: 674.87726, y: 100, z: 75}
+  m_LocalPosition: {x: 26.6, y: 50, z: 457.5}
+  m_LocalScale: {x: 674.87787, y: 99.999985, z: 162.0222}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -1089,7 +1089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73cca07b47b801646a74aa9df7a04a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navCost: 120
+  navCost: 0
   is_Obstacle: 1
 --- !u!65 &1798497601
 BoxCollider:
@@ -1159,8 +1159,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798497599}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 350, y: 50, z: -500.4}
-  m_LocalScale: {x: 75.000145, y: 99.99996, z: 258.36084}
+  m_LocalPosition: {x: 350, y: 50, z: -379.61}
+  m_LocalScale: {x: 75.000175, y: 99.99996, z: 494.31604}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
@@ -1207,7 +1207,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2109728935}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1267,8 +1267,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2109728935}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42, y: 50, z: -214.4}
-  m_LocalScale: {x: 75.000145, y: 99.99983, z: 830.4187}
+  m_LocalPosition: {x: 47.3, y: 50, z: -214.4}
+  m_LocalScale: {x: 439.4961, y: 99.99983, z: 830.4187}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8

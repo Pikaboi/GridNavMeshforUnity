@@ -225,8 +225,11 @@ public class GridNavigator : MonoBehaviour
         //Check we can move Bottom-Left
         if (cellID.y - 1 >= 0 && cellID.x - 1 >= 0)
         {
+            //We do 3 checks so it doesnt try to cut through obstacles
             bool obs = currentGrid.FindObstacle(cellID.x - 1, cellID.y - 1, this);
-            if (!obs)
+            bool obs2 = currentGrid.FindObstacle(cellID.x - 1, cellID.y, this);
+            bool obs3 = currentGrid.FindObstacle(cellID.x, cellID.y - 1, this);
+            if (!obs && !obs2 && !obs3)
             {
                 successors.Add(currentGrid.cells[cellID.x - 1, cellID.y - 1]);
                 successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y - 1));
@@ -236,8 +239,11 @@ public class GridNavigator : MonoBehaviour
         //Check we can move Bottom-Right
         if (cellID.y - 1 >= 0 && cellID.x + 1 <= currentGrid.gridArea.x - 1)
         {
+            //We do 3 checks so it doesnt try to cut through obstacles
             bool obs = currentGrid.FindObstacle(cellID.x + 1, cellID.y - 1, this);
-            if (!obs)
+            bool obs2 = currentGrid.FindObstacle(cellID.x + 1, cellID.y, this);
+            bool obs3 = currentGrid.FindObstacle(cellID.x, cellID.y - 1, this);
+            if (!obs && !obs2 && !obs3)
             {
                 successors.Add(currentGrid.cells[cellID.x + 1, cellID.y - 1]);
                 successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y - 1));
@@ -247,8 +253,11 @@ public class GridNavigator : MonoBehaviour
         //Check we can move Top-Left
         if (cellID.y + 1 <= currentGrid.gridArea.y - 1 && cellID.x - 1 >= 0)
         {
+            //We do 3 checks so it doesnt try to cut through obstacles
             bool obs = currentGrid.FindObstacle(cellID.x - 1, cellID.y + 1, this);
-            if (!obs)
+            bool obs2 = currentGrid.FindObstacle(cellID.x - 1, cellID.y, this);
+            bool obs3 = currentGrid.FindObstacle(cellID.x, cellID.y + 1, this);
+            if (!obs && !obs2 && !obs3)
             {
                 successors.Add(currentGrid.cells[cellID.x - 1, cellID.y + 1]);
                 successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y + 1));
@@ -258,8 +267,11 @@ public class GridNavigator : MonoBehaviour
         //Check we can move Top-Right
         if (cellID.y + 1 <= currentGrid.gridArea.y - 1 && cellID.x + 1 <= currentGrid.gridArea.x - 1)
         {
+            //We do 3 checks so it doesnt try to cut through obstacles
             bool obs = currentGrid.FindObstacle(cellID.x + 1, cellID.y + 1, this);
-            if (!obs)
+            bool obs2 = currentGrid.FindObstacle(cellID.x + 1, cellID.y, this);
+            bool obs3 = currentGrid.FindObstacle(cellID.x, cellID.y + 1, this);
+            if (!obs && !obs2 && !obs3)
             {
                 successors.Add(currentGrid.cells[cellID.x + 1, cellID.y + 1]);
                 successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y + 1));
@@ -313,12 +325,21 @@ public class GridNavigator : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        foreach(Rect r in openList)
+        if (currentGrid != null)
         {
-            Gizmos.color = Color.red;
-            Vector3 center = new Vector3(r.center.x, 0.0f, r.center.y);
-            Vector3 size = new Vector3(100.0f, 1.0f, 100.0f);
-            Gizmos.DrawWireCube(center, size);
+            foreach (Rect r in currentGrid.cells)
+            {
+                Gizmos.color = Color.red;
+
+                bool obs = currentGrid.FindObstacle(r, this);
+
+                if (obs)
+                {
+                    Vector3 center = new Vector3(r.center.x, 0.0f, r.center.y);
+                    Vector3 size = new Vector3(100.0f, 1.0f, 100.0f);
+                    Gizmos.DrawWireCube(center, size);
+                }
+            }
         }
     }
 }
