@@ -153,7 +153,7 @@ public class GridNavigator : MonoBehaviour
             {
                 h = manhattan;
                 bestSuccessor = i;
-            }
+            } 
         }
 
         //Add the current cell to the open list so we dont backtrack
@@ -296,10 +296,15 @@ public class GridNavigator : MonoBehaviour
 
             float Diagonal = (dx + dy) + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy) + successorCost[i];
 
-            if (Diagonal <= h && !closedList.Contains(successors[i]))
+            Debug.Log(successors[i]);
+
+            if (Diagonal < h && !closedList.Contains(successors[i]))
             {
                 h = Diagonal;
                 bestSuccessor = i;
+            } else if(Diagonal == h)
+            {
+                Debug.Log("this is my issue");
             }
         }
 
