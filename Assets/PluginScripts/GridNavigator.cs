@@ -85,8 +85,6 @@ public class GridNavigator : MonoBehaviour
 
     public void GetPath()
     {
-        while (!closedList.Contains(Destination))
-        {
             switch (moveType)
             {
                 case GridTraversal.Direction4:
@@ -96,12 +94,6 @@ public class GridNavigator : MonoBehaviour
                     Direction8Move();
                     break;
             }
-        }
-
-        foreach(Rect r in closedList)
-        {
-            Debug.Log(r);
-        }
     }
 
     void Direction4Move()
