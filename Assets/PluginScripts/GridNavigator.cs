@@ -60,8 +60,12 @@ public class GridNavigator : MonoBehaviour
 
     public void Move()
     {
+        if(closedList.Count == 0)
+        {
+            GetPath();
+        }
         //Move with A* Algorithm
-        if (CurrentCell != Destination)
+        /*if (CurrentCell != Destination)
         {
             switch (moveType)
             {
@@ -76,6 +80,27 @@ public class GridNavigator : MonoBehaviour
         else if (!DestCenter.Contains(transform.position))
         {
             MoveToDestCenter();
+        }*/
+    }
+
+    public void GetPath()
+    {
+        while (!closedList.Contains(Destination))
+        {
+            switch (moveType)
+            {
+                case GridTraversal.Direction4:
+                    Direction4Move();
+                    break;
+                case GridTraversal.Direction8:
+                    Direction8Move();
+                    break;
+            }
+        }
+
+        foreach(Rect r in closedList)
+        {
+            Debug.Log(r);
         }
     }
 
@@ -90,6 +115,7 @@ public class GridNavigator : MonoBehaviour
         //Get Successors
         List<Rect> successors = new List<Rect>();
         List<int> successorCost = new List<int>();
+        List<float> successorDistance = new List<float>();
 
         //check we can move left
         if (cellID.x - 1 >= 0)
@@ -97,8 +123,20 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x - 1, cellID.y, this);
             if (!obs)
             {
+                bool _dest = isDest(currentGrid.cells[cellID.x - 1, cellID.y]);
+
+                if (_dest)
+                {
+                    closedList.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
+                    return;
+                }
+
                 successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
                 successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y));
+
+                Vector2 Distance = (currentGrid.cells[cellID.x - 1, cellID.y].center - currentGrid.cells[cellID.x, cellID.y].center);
+                successorDistance.Add(Distance.magnitude);
+                //successorDistance.Add();
             }
         }
 
@@ -108,8 +146,18 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x + 1, cellID.y, this);
             if (!obs)
             {
+                bool _dest = isDest(currentGrid.cells[cellID.x + 1, cellID.y]);
+
+                if (_dest)
+                {
+                    closedList.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
+                    return;
+                }
+
                 successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
                 successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y));
+                Vector2 Distance = currentGrid.cells[cellID.x + 1, cellID.y].center - currentGrid.cells[cellID.x, cellID.y].center;
+                successorDistance.Add(Distance.magnitude);
             }
         }
 
@@ -119,8 +167,18 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x, cellID.y + 1, this);
             if (!obs)
             {
+                bool _dest = isDest(currentGrid.cells[cellID.x, cellID.y + 1]);
+
+                if (_dest)
+                {
+                    closedList.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
+                    return;
+                }
+
                 successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
                 successorCost.Add(currentGrid.GetCost(cellID.x, cellID.y + 1));
+                Vector2 Distance = currentGrid.cells[cellID.x, cellID.y + 1].center - currentGrid.cells[cellID.x, cellID.y].center;
+                successorDistance.Add(Distance.magnitude);
             }
         }
 
@@ -130,8 +188,18 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x, cellID.y - 1, this);
             if (!obs)
             {
+                bool _dest = isDest(currentGrid.cells[cellID.x, cellID.y - 1]);
+
+                if (_dest)
+                {
+                    closedList.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
+                    return;
+                }
+
                 successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
                 successorCost.Add(currentGrid.GetCost(cellID.x, cellID.y - 1));
+                Vector2 Distance = (currentGrid.cells[cellID.x - 1, cellID.y].center - currentGrid.cells[cellID.x, cellID.y].center);
+                successorDistance.Add(Distance.magnitude);
             }
         }
 
@@ -142,29 +210,32 @@ public class GridNavigator : MonoBehaviour
         }
 
         //Get a maximum, infinity since it should work with any combo.
-        float h = Mathf.Infinity;
+        float f = Mathf.Infinity;
         int bestSuccessor = 0;
 
         for (int i = 0; i < successors.Count; i++)
         {
-            float manhattan = (Mathf.Abs(successors[i].x - Destination.x) + Mathf.Abs(successors[i].y - Destination.y)) + successorCost[i];
+            //Get the distance from destination, distance to next space and the obstacle cost of the space
+            float manhattan = (Mathf.Abs(successors[i].x - Destination.x) + Mathf.Abs(successors[i].y - Destination.y)) + successorCost[i] + successorDistance[i];
 
-            if (manhattan <= h && !closedList.Contains(successors[i]))
+            if (manhattan <= f && !closedList.Contains(successors[i]))
             {
-                h = manhattan;
+                f = manhattan;
                 bestSuccessor = i;
+                Debug.Log(i);
+                Debug.Log(f);
             } 
         }
 
         //Add the current cell to the open list so we dont backtrack
-        closedList.Add(CurrentCell);
+        closedList.Add(successors[bestSuccessor]);
 
         //Look towards destination and translate
-        Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
+        //Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
 
-        transform.LookAt(lookDir);
+        //transform.LookAt(lookDir);
 
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        //transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
     }
 
     void Direction8Move()
@@ -296,8 +367,6 @@ public class GridNavigator : MonoBehaviour
 
             float Diagonal = (dx + dy) + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy) + successorCost[i];
 
-            Debug.Log(successors[i]);
-
             if (Diagonal < h && !closedList.Contains(successors[i]))
             {
                 h = Diagonal;
@@ -318,6 +387,16 @@ public class GridNavigator : MonoBehaviour
 
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
     }
+
+    bool isDest(Rect rect)
+    {
+        if (rect == Destination)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     //Moves the player closer to the center of its destination before stopping
     void MoveToDestCenter()
