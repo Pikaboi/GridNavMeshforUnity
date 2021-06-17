@@ -33,7 +33,7 @@ public class ExampleScript : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
-                GridNavigator.SetDestination(GridNavigator.currentGrid.cells[0, 0]);
+                GridNavigator.SetDestination(GridNavigator.currentGrid.cells[0, 1]);
             }
             if (Input.GetKeyDown(KeyCode.D))
             {
