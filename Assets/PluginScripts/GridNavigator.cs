@@ -12,7 +12,9 @@ public class GridNavigator : MonoBehaviour
     Rect Destination;
     Rect DestCenter;
     Vector2Int cellID;
-    List<Rect> closedList = new List<Rect>();
+    List<GridNode> closedList = new List<GridNode>();
+    List<GridNode> openList = new List<GridNode>();
+    GridNode[,] nodes;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -58,6 +60,21 @@ public class GridNavigator : MonoBehaviour
         }
     }
 
+    private void GetCurrentNode(GridNode _current)
+    {
+        for (int i = 0; i < currentGrid.gridArea.x; i++)
+        {
+            for (int j = 0; j < currentGrid.gridArea.y; j++)
+            {
+                if (currentGrid.cells[i, j] == _current.m_cell)
+                {
+                    cellID = new Vector2Int(i, j);
+                    break;
+                }
+            }
+        }
+    }
+
     public void Move()
     {
         if(closedList.Count == 0)
@@ -83,31 +100,100 @@ public class GridNavigator : MonoBehaviour
         }*/
     }
 
-    public void GetPath()
+    public List<GridNode> GetPath()
     {
+        GridNode Start = new GridNode(CurrentCell);
+
+        openList = new List<GridNode>();
+        openList.Add(Start);
+        closedList = new List<GridNode>();
+
+        Start.m_g = 0;
+        Start.m_h = GetDistance(Start.m_cell);
+
+        //Main loop
+        //Set current node
+        while (openList.Count > 0)
+        {
+            GridNode CurrentNode = GetLowestCost();
+
+            //Check if reached the end
+            if (CurrentNode.m_cell == Destination)
+            {
+                //return the path
+            }
+
+            openList.Remove(CurrentNode);
+            closedList.Add(CurrentNode);
+
+            List<GridNode> successors = new List<GridNode>();
             switch (moveType)
             {
                 case GridTraversal.Direction4:
-                    Direction4Move();
+                    successors = Direction4Move(CurrentNode);
                     break;
                 case GridTraversal.Direction8:
-                    Direction8Move();
+                    successors = Direction8Move(CurrentNode);
                     break;
             }
+        }
+
+
+
+        //Remove node from open list
+        //Add it too closed
+
+        //loop through successors
+        //Ignore if in closed
+        //calculate the distance
+        //if distance smaller, set as successor
+        //Update Values
+        //if not on open list, add it
+
+        //return nothing if no path
     }
 
-    void Direction4Move()
+    GridNode GetLowestCost()
     {
-        //Get the cell we are currently on
-        GetCurrentCell();
+        GridNode lowestCost = openList[0];
 
-        //A* Alogirithm
-        //g = parent.g + distance between node and parent
-        //h = max {abs(currentx - destx), abs(currenty - desty)}
+        for(int i = 0; i < openList.Count; i++)
+        {
+            if(openList[i].m_f < lowestCost.m_f)
+            {
+                lowestCost = openList[i];
+            }
+        }
+
+        return lowestCost;
+    }
+
+    float GetDistance(Rect start)
+    {
+        float dis = 0;
+        switch (moveType)
+        {
+            case GridTraversal.Direction4:
+                //Manhattan
+                dis = (Mathf.Abs(start.x - Destination.x) + Mathf.Abs(start.y - Destination.y)) + currentGrid.GetCost(start);
+                break;
+            case GridTraversal.Direction8:
+                //Diagonal
+                float dx = Mathf.Abs(start.x - Destination.x);
+                float dy = Mathf.Abs(start.y - Destination.y);
+
+                dis = (dx + dy) + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy) + currentGrid.GetCost(start);
+                break;
+        }
+
+        return dis;
+    }
+
+    List<GridNode> Direction4Move(GridNode _current)
+    {
+        GetCurrentNode(_current);
         //Get Successors
-        List<Rect> successors = new List<Rect>();
-        List<int> successorCost = new List<int>();
-        List<float> successorDistance = new List<float>();
+        List<GridNode> successors = new List<GridNode>();
 
         //check we can move left
         if (cellID.x - 1 >= 0)
@@ -115,20 +201,7 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x - 1, cellID.y, this);
             if (!obs)
             {
-                bool _dest = isDest(currentGrid.cells[cellID.x - 1, cellID.y]);
-
-                if (_dest)
-                {
-                    closedList.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
-                    return;
-                }
-
-                successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
-                successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y));
-
-                Vector2 Distance = (currentGrid.cells[cellID.x - 1, cellID.y].center - currentGrid.cells[cellID.x, cellID.y].center);
-                successorDistance.Add(Distance.magnitude);
-                //successorDistance.Add();
+                successors.Add(currentGrid.nodes[cellID.x - 1, cellID.y]);
             }
         }
 
@@ -138,18 +211,7 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x + 1, cellID.y, this);
             if (!obs)
             {
-                bool _dest = isDest(currentGrid.cells[cellID.x + 1, cellID.y]);
-
-                if (_dest)
-                {
-                    closedList.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
-                    return;
-                }
-
-                successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
-                successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y));
-                Vector2 Distance = currentGrid.cells[cellID.x + 1, cellID.y].center - currentGrid.cells[cellID.x, cellID.y].center;
-                successorDistance.Add(Distance.magnitude);
+                successors.Add(currentGrid.nodes[cellID.x + 1, cellID.y]);
             }
         }
 
@@ -159,18 +221,7 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x, cellID.y + 1, this);
             if (!obs)
             {
-                bool _dest = isDest(currentGrid.cells[cellID.x, cellID.y + 1]);
-
-                if (_dest)
-                {
-                    closedList.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
-                    return;
-                }
-
-                successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
-                successorCost.Add(currentGrid.GetCost(cellID.x, cellID.y + 1));
-                Vector2 Distance = currentGrid.cells[cellID.x, cellID.y + 1].center - currentGrid.cells[cellID.x, cellID.y].center;
-                successorDistance.Add(Distance.magnitude);
+                successors.Add(currentGrid.nodes[cellID.x, cellID.y + 1]);
             }
         }
 
@@ -180,67 +231,18 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x, cellID.y - 1, this);
             if (!obs)
             {
-                bool _dest = isDest(currentGrid.cells[cellID.x, cellID.y - 1]);
-
-                if (_dest)
-                {
-                    closedList.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
-                    return;
-                }
-
-                successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
-                successorCost.Add(currentGrid.GetCost(cellID.x, cellID.y - 1));
-                Vector2 Distance = (currentGrid.cells[cellID.x - 1, cellID.y].center - currentGrid.cells[cellID.x, cellID.y].center);
-                successorDistance.Add(Distance.magnitude);
+                successors.Add(currentGrid.nodes[cellID.x, cellID.y - 1]);
             }
         }
 
-        //If we have no options, dont move
-        if(successors.Count == 0)
-        {
-            return;
-        }
-
-        //Get a maximum, infinity since it should work with any combo.
-        float f = Mathf.Infinity;
-        int bestSuccessor = 0;
-
-        for (int i = 0; i < successors.Count; i++)
-        {
-            //Get the distance from destination, distance to next space and the obstacle cost of the space
-            float manhattan = (Mathf.Abs(successors[i].x - Destination.x) + Mathf.Abs(successors[i].y - Destination.y)) + successorCost[i] + successorDistance[i];
-
-            if (manhattan <= f && !closedList.Contains(successors[i]))
-            {
-                f = manhattan;
-                bestSuccessor = i;
-                Debug.Log(i);
-                Debug.Log(f);
-            } 
-        }
-
-        //Add the current cell to the open list so we dont backtrack
-        closedList.Add(successors[bestSuccessor]);
-
-        //Look towards destination and translate
-        //Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
-
-        //transform.LookAt(lookDir);
-
-        //transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        return successors;
     }
 
-    void Direction8Move()
+    List<GridNode> Direction8Move(GridNode _current)
     {
-        //Get current cell
-        GetCurrentCell();
-
-        //A* Alogirithm
-        //g = parent.g + distance between node and parent
-        //h = Distance * (x length + y length) + (Angled Distance - 2 * Distance) * min(x length, y length)
-        //Get Successors
-        List<Rect> successors = new List<Rect>();
-        List<int> successorCost = new List<int>();
+        GetCurrentNode(_current);
+        //Get SUccessors
+        List<GridNode> successors = new List<GridNode>();
 
         //check we can move left
         if (cellID.x - 1 >= 0)
@@ -248,8 +250,7 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x - 1, cellID.y, this);
             if (!obs)
             {
-                successors.Add(currentGrid.cells[cellID.x - 1, cellID.y]);
-                successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y));
+                successors.Add(currentGrid.nodes[cellID.x - 1, cellID.y]);
             }
         }
 
@@ -259,8 +260,7 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x + 1, cellID.y, this);
             if (!obs)
             {
-                successors.Add(currentGrid.cells[cellID.x + 1, cellID.y]);
-                successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y));
+                successors.Add(currentGrid.nodes[cellID.x + 1, cellID.y]);
             }
         }
 
@@ -270,8 +270,7 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x, cellID.y + 1, this);
             if (!obs)
             {
-                successors.Add(currentGrid.cells[cellID.x, cellID.y + 1]);
-                successorCost.Add(currentGrid.GetCost(cellID.x, cellID.y + 1));
+                successors.Add(currentGrid.nodes[cellID.x, cellID.y + 1]);
             }
         }
 
@@ -281,8 +280,7 @@ public class GridNavigator : MonoBehaviour
             bool obs = currentGrid.FindObstacle(cellID.x, cellID.y - 1, this);
             if (!obs)
             {
-                successors.Add(currentGrid.cells[cellID.x, cellID.y - 1]);
-                successorCost.Add(currentGrid.GetCost(cellID.x, cellID.y - 1));
+                successors.Add(currentGrid.nodes[cellID.x, cellID.y - 1]);
             }
         }
 
@@ -295,8 +293,7 @@ public class GridNavigator : MonoBehaviour
             bool obs3 = currentGrid.FindObstacle(cellID.x, cellID.y - 1, this);
             if (!obs && !obs2 && !obs3)
             {
-                successors.Add(currentGrid.cells[cellID.x - 1, cellID.y - 1]);
-                successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y - 1));
+                successors.Add(currentGrid.nodes[cellID.x - 1, cellID.y - 1]);
             }
         }
 
@@ -309,8 +306,7 @@ public class GridNavigator : MonoBehaviour
             bool obs3 = currentGrid.FindObstacle(cellID.x, cellID.y - 1, this);
             if (!obs && !obs2 && !obs3)
             {
-                successors.Add(currentGrid.cells[cellID.x + 1, cellID.y - 1]);
-                successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y - 1));
+                successors.Add(currentGrid.nodes[cellID.x + 1, cellID.y - 1]);
             }
         }
 
@@ -323,8 +319,7 @@ public class GridNavigator : MonoBehaviour
             bool obs3 = currentGrid.FindObstacle(cellID.x, cellID.y + 1, this);
             if (!obs && !obs2 && !obs3)
             {
-                successors.Add(currentGrid.cells[cellID.x - 1, cellID.y + 1]);
-                successorCost.Add(currentGrid.GetCost(cellID.x - 1, cellID.y + 1));
+                successors.Add(currentGrid.nodes[cellID.x - 1, cellID.y + 1]);
             }
         }
 
@@ -337,47 +332,11 @@ public class GridNavigator : MonoBehaviour
             bool obs3 = currentGrid.FindObstacle(cellID.x, cellID.y + 1, this);
             if (!obs && !obs2 && !obs3)
             {
-                successors.Add(currentGrid.cells[cellID.x + 1, cellID.y + 1]);
-                successorCost.Add(currentGrid.GetCost(cellID.x + 1, cellID.y + 1));
+                successors.Add(currentGrid.nodes[cellID.x + 1, cellID.y + 1]);
             }
         }
 
-        //If we have no options, dont move
-        if (successors.Count == 0)
-        {
-            return;
-        }
-
-        //Get a maximum, infinity since it should work with any combo.
-        float h = Mathf.Infinity;
-        int bestSuccessor = 0;
-
-        for (int i = 0; i < successors.Count; i++)
-        {
-            float dx = Mathf.Abs(successors[i].x - Destination.x);
-            float dy = Mathf.Abs(successors[i].y - Destination.y);
-
-            float Diagonal = (dx + dy) + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy) + successorCost[i];
-
-            if (Diagonal < h && !closedList.Contains(successors[i]))
-            {
-                h = Diagonal;
-                bestSuccessor = i;
-            } else if(Diagonal == h)
-            {
-                Debug.Log("this is my issue");
-            }
-        }
-
-        //Add the current cell to the open list so we dont backtrack
-        closedList.Add(CurrentCell);
-
-        //Look in direction of movement and translate
-        Vector3 lookDir = new Vector3(successors[bestSuccessor].center.x, transform.position.y, successors[bestSuccessor].center.y);
-
-        transform.LookAt(lookDir);
-
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        return successors;
     }
 
     bool isDest(Rect rect)

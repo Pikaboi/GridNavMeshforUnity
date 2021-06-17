@@ -9,6 +9,7 @@ public class GridController : MonoBehaviour
     public ShapeType cellShape = ShapeType.Square;
 
     public Rect[,] cells = new Rect[10,10];
+    public GridNode[,] nodes = new GridNode[10, 10];
     
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,7 @@ public class GridController : MonoBehaviour
                 //Set the cells position and size
                 //cells.Add(new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x - cellSize / 2 , z - cellSize / 2), new Vector2(cellSize, cellSize)));
                 cells[i, j] = new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x, z), new Vector2(cellSize, cellSize));
+                nodes[i, j] = new GridNode(cells[i, j]);
             }
         }
     }
