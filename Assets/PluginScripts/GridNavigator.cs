@@ -376,16 +376,15 @@ public class GridNavigator : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        /*if (currentGrid != null || path.Count == 0)
+        if (currentGrid != null && Path != null)
         {
-            Debug.Log(path.Count);
-            /*foreach (GridNode r in path)
+            foreach (GridNode r in Path)
             {
                 Gizmos.color = Color.red;
-                    Vector3 center = new Vector3(r.m_cell.center.x, 0.0f, r.m_cell.center.y);
+                    Vector3 center = new Vector3(r.m_cell.center.x, 1.0f, r.m_cell.center.y);
                     Vector3 size = new Vector3(currentGrid.cellSize, 1.0f, currentGrid.cellSize);
                     Gizmos.DrawWireCube(center, size);
             }
-        }*/
+        }
     }
 }
