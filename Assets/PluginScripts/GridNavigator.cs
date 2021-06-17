@@ -91,19 +91,29 @@ public class GridNavigator : MonoBehaviour
             gameObject.transform.LookAt(lookDir);
             //Move towards the path
             gameObject.transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
-        } else if (pathNum == Path.Count - 1 && !DestCenter.Contains(new Vector2(transform.position.x, transform.position.z)))
+        } else if (Path != null && pathNum == Path.Count - 1 && !DestCenter.Contains(new Vector2(transform.position.x, transform.position.z)))
         {
             //Move it too center when its in the destination
             MoveToDestCenter();
+        } else
+        {
+            //Clear the path
+            Path = null;
+            closedList.Clear();
+            openList.Clear();
+            Destination = new Rect();
+            DestCenter = new Rect();
         }
 
-        //Check if the Navigator reached the next cell
-        if (Path[pathNum].m_cell.Contains(new Vector2(transform.position.x, transform.position.z)))
-        {
-            //Check it doesnt go out of bounds
-            if (pathNum != Path.Count - 1)
+        if (Path != null) {
+            //Check if the Navigator reached the next cell
+            if (Path[pathNum].m_cell.Contains(new Vector2(transform.position.x, transform.position.z)))
             {
-                pathNum++;
+                //Check it doesnt go out of bounds
+                if (pathNum != Path.Count - 1)
+                {
+                    pathNum++;
+                }
             }
         }
     }
