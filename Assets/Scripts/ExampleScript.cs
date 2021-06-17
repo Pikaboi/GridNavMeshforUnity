@@ -21,7 +21,7 @@ public class ExampleScript : MonoBehaviour
     {
         if(GridNavigator.currentGrid != null)
         {
-            
+            GridNavigator.Move();
         }
     }
 

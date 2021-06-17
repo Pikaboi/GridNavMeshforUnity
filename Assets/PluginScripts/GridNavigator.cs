@@ -75,7 +75,11 @@ public class GridNavigator : MonoBehaviour
 
     public void Move()
     {
-       
+        if (Path != null)
+        {
+            transform.LookAt(new Vector3(Path[0].m_cell.center.x, 0.0f, Path[0].m_cell.center.y));
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
     }
 
     private List<GridNode> GetPath()
