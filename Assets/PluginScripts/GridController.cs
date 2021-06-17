@@ -44,6 +44,19 @@ public class GridController : MonoBehaviour
         }
     }
 
+    public void ResetNodes()
+    {
+        //Generate Each cell
+        for (int i = 0; i < gridArea.x; i++)
+        {
+            for (int j = 0; j < gridArea.y; j++)
+            {
+                nodes[i, j].m_g = Mathf.Infinity;
+                nodes[i, j].GetF();
+            }
+        }
+    }
+
     public bool FindObstacle(int _x, int _y, GridNavigator _Navigator)
     {
         //Set values for the overlap box
