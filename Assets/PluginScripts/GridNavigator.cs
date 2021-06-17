@@ -29,7 +29,12 @@ public class GridNavigator : MonoBehaviour
     }
 
     public void SetDestination(Rect _Destination) {
+        //Clear the path
         Path = null;
+        closedList.Clear();
+        openList.Clear();
+        Destination = new Rect();
+        DestCenter = new Rect();
         GetCurrentCell();
         //We clear the closedList so it doesnt get stuck on places its been
         Destination = _Destination;
@@ -41,7 +46,12 @@ public class GridNavigator : MonoBehaviour
 
     public void SetDestination(int _gridX, int _gridY)
     {
+        //Clear the path
         Path = null;
+        closedList.Clear();
+        openList.Clear();
+        Destination = new Rect();
+        DestCenter = new Rect();
         GetCurrentCell();
         //We clear the closedList so it doesnt get stuck on places its been
         Destination = currentGrid.cells[_gridX, _gridY];

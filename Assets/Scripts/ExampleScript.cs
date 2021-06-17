@@ -22,6 +22,23 @@ public class ExampleScript : MonoBehaviour
         if(GridNavigator.currentGrid != null)
         {
             GridNavigator.Move();
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                GridNavigator.SetDestination(GridNavigator.currentGrid.cells[5, 5]);
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                GridNavigator.SetDestination(GridNavigator.currentGrid.cells[9, 0]);
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                GridNavigator.SetDestination(GridNavigator.currentGrid.cells[0, 0]);
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                GridNavigator.SetDestination(GridNavigator.currentGrid.cells[5, 14]);
+            }
         }
     }
 
