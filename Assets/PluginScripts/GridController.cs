@@ -27,6 +27,7 @@ public class GridController : MonoBehaviour
 
         //We clear cells from an old initialization
         cells = new Rect[(int)gridArea.x, (int)gridArea.y];
+        nodes = new GridNode[(int)gridArea.x, (int)gridArea.y];
         
         //Generate Each cell
         for(int i = 0; i < gridArea.x; i++)
@@ -37,6 +38,8 @@ public class GridController : MonoBehaviour
                 //cells.Add(new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x - cellSize / 2 , z - cellSize / 2), new Vector2(cellSize, cellSize)));
                 cells[i, j] = new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x, z), new Vector2(cellSize, cellSize));
                 nodes[i, j] = new GridNode(cells[i, j]);
+                nodes[i, j].m_g = Mathf.Infinity;
+                nodes[i, j].GetF();
             }
         }
     }

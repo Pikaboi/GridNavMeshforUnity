@@ -14,7 +14,7 @@ public class GridNavigator : MonoBehaviour
     Vector2Int cellID;
     List<GridNode> closedList = new List<GridNode>();
     List<GridNode> openList = new List<GridNode>();
-    GridNode[,] nodes;
+    List<GridNode> Path = new List<GridNode>();
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -28,20 +28,19 @@ public class GridNavigator : MonoBehaviour
 
     public void SetDestination(Rect _Destination) {
         //We clear the closedList so it doesnt get stuck on places its been
-        closedList.Clear();
         Destination = _Destination;
         //Get the center of the destination
         DestCenter = new Rect(Destination.center, Destination.size);
-        Debug.Log(closedList.Count);
+        Path = GetPath();
     }
 
     public void SetDestination(int _gridX, int _gridY)
     {
         //We clear the closedList so it doesnt get stuck on places its been
-        closedList.Clear();
         Destination = currentGrid.cells[_gridX, _gridY];
         //Get the center of the destination
         DestCenter = new Rect(Destination.center, Destination.size / 2);
+        Path = GetPath();
     }
 
     private void GetCurrentCell()
@@ -53,7 +52,6 @@ public class GridNavigator : MonoBehaviour
                 if (currentGrid.cells[i,j].Contains(new Vector2(transform.position.x, transform.position.z)))
                 {
                     CurrentCell = currentGrid.cells[i,j];
-                    cellID = new Vector2Int(i, j);
                     break;
                 }
             }
@@ -77,30 +75,10 @@ public class GridNavigator : MonoBehaviour
 
     public void Move()
     {
-        if(closedList.Count == 0)
-        {
-            GetPath();
-        }
-        //Move with A* Algorithm
-        /*if (CurrentCell != Destination)
-        {
-            switch (moveType)
-            {
-                case GridTraversal.Direction4:
-                    Direction4Move();
-                    break;
-                case GridTraversal.Direction8:
-                    Direction8Move();
-                    break;
-            }
-        } //Move to center now that it has arrived 
-        else if (!DestCenter.Contains(transform.position))
-        {
-            MoveToDestCenter();
-        }*/
+       
     }
 
-    public List<GridNode> GetPath()
+    private List<GridNode> GetPath()
     {
         GridNode Start = new GridNode(CurrentCell);
 
@@ -109,7 +87,7 @@ public class GridNavigator : MonoBehaviour
         closedList = new List<GridNode>();
 
         Start.m_g = 0;
-        Start.m_h = GetDistance(Start.m_cell);
+        Start.m_h = GetDistance(Start.m_cell, Destination);
 
         //Main loop
         //Set current node
@@ -121,6 +99,7 @@ public class GridNavigator : MonoBehaviour
             if (CurrentNode.m_cell == Destination)
             {
                 //return the path
+                return GeneratePath(CurrentNode);
             }
 
             openList.Remove(CurrentNode);
@@ -136,9 +115,29 @@ public class GridNavigator : MonoBehaviour
                     successors = Direction8Move(CurrentNode);
                     break;
             }
+
+            foreach (GridNode _node in successors)
+            {
+                if (closedList.Contains(_node)) continue;
+
+                float g = CurrentNode.m_g + GetDistance(CurrentNode.m_cell, _node.m_cell);
+
+                if(g < _node.m_g)
+                {
+                    _node.prevNode = CurrentNode;
+                    _node.m_g = g;
+                    _node.m_h = GetDistance(_node.m_cell, Destination);
+                    _node.GetF();
+
+                    if (!openList.Contains(_node))
+                    {
+                        openList.Add(_node);
+                    }
+                }
+            }
         }
-
-
+        //We out
+        return null;
 
         //Remove node from open list
         //Add it too closed
@@ -151,6 +150,22 @@ public class GridNavigator : MonoBehaviour
         //if not on open list, add it
 
         //return nothing if no path
+    }
+
+    List<GridNode> GeneratePath(GridNode _end)
+    {
+        List<GridNode> path = new List<GridNode>();
+        path.Add(_end);
+        GridNode curr = _end;
+        while(curr.prevNode != null)
+        {
+            path.Add(curr.prevNode);
+            curr = curr.prevNode;
+        }
+
+        path.Reverse();
+
+        return path;
     }
 
     GridNode GetLowestCost()
@@ -168,19 +183,19 @@ public class GridNavigator : MonoBehaviour
         return lowestCost;
     }
 
-    float GetDistance(Rect start)
+    float GetDistance(Rect start, Rect end)
     {
         float dis = 0;
         switch (moveType)
         {
             case GridTraversal.Direction4:
                 //Manhattan
-                dis = (Mathf.Abs(start.x - Destination.x) + Mathf.Abs(start.y - Destination.y)) + currentGrid.GetCost(start);
+                dis = (Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y)) + currentGrid.GetCost(start);
                 break;
             case GridTraversal.Direction8:
                 //Diagonal
-                float dx = Mathf.Abs(start.x - Destination.x);
-                float dy = Mathf.Abs(start.y - Destination.y);
+                float dx = Mathf.Abs(start.x - end.x);
+                float dy = Mathf.Abs(start.y - end.y);
 
                 dis = (dx + dy) + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy) + currentGrid.GetCost(start);
                 break;
@@ -361,15 +376,16 @@ public class GridNavigator : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (currentGrid != null)
+        /*if (currentGrid != null || path.Count == 0)
         {
-            foreach (Rect r in closedList)
+            Debug.Log(path.Count);
+            /*foreach (GridNode r in path)
             {
                 Gizmos.color = Color.red;
-                    Vector3 center = new Vector3(r.center.x, 0.0f, r.center.y);
-                    Vector3 size = new Vector3(100.0f, 1.0f, 100.0f);
+                    Vector3 center = new Vector3(r.m_cell.center.x, 0.0f, r.m_cell.center.y);
+                    Vector3 size = new Vector3(currentGrid.cellSize, 1.0f, currentGrid.cellSize);
                     Gizmos.DrawWireCube(center, size);
             }
-        }
+        }*/
     }
 }
