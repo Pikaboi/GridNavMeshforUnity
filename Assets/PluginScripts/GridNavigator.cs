@@ -77,9 +77,9 @@ public class GridNavigator : MonoBehaviour
     {
         if (Path != null)
         {
-            Vector3 lookDir = new Vector3(Path[0].m_cell.center.x, transform.position.y, Path[0].m_cell.center.y);
-            transform.LookAt(lookDir);
-            transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.World);
+            Vector3 lookDir = new Vector3(Path[1].m_cell.center.x, transform.position.y, Path[1].m_cell.center.y);
+            gameObject.transform.LookAt(lookDir);
+            gameObject.transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.World);
         }
     }
 
