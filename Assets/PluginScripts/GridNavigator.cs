@@ -102,9 +102,12 @@ public class GridNavigator : MonoBehaviour
                 return GeneratePath(CurrentNode);
             }
 
+            //Remove node from open list
             openList.Remove(CurrentNode);
+            //Add it too closed
             closedList.Add(CurrentNode);
 
+            //Get the successors based on move type
             List<GridNode> successors = new List<GridNode>();
             switch (moveType)
             {
@@ -116,19 +119,25 @@ public class GridNavigator : MonoBehaviour
                     break;
             }
 
+            //loop through successors
             foreach (GridNode _node in successors)
             {
+                //Ignore if in closed
                 if (closedList.Contains(_node)) continue;
 
+                //calculate the distance
+                //if distance smaller, set as successor
                 float g = CurrentNode.m_g + GetDistance(CurrentNode.m_cell, _node.m_cell);
 
                 if(g < _node.m_g)
                 {
+                    //Update Values
                     _node.prevNode = CurrentNode;
                     _node.m_g = g;
                     _node.m_h = GetDistance(_node.m_cell, Destination);
                     _node.GetF();
 
+                    //if not on open list, add it
                     if (!openList.Contains(_node))
                     {
                         openList.Add(_node);
@@ -136,20 +145,8 @@ public class GridNavigator : MonoBehaviour
                 }
             }
         }
-        //We out
-        return null;
-
-        //Remove node from open list
-        //Add it too closed
-
-        //loop through successors
-        //Ignore if in closed
-        //calculate the distance
-        //if distance smaller, set as successor
-        //Update Values
-        //if not on open list, add it
-
         //return nothing if no path
+        return null;
     }
 
     List<GridNode> GeneratePath(GridNode _end)
@@ -172,6 +169,7 @@ public class GridNavigator : MonoBehaviour
     {
         GridNode lowestCost = openList[0];
 
+        //Get the lowest F Cost
         for(int i = 0; i < openList.Count; i++)
         {
             if(openList[i].m_f < lowestCost.m_f)
@@ -381,9 +379,9 @@ public class GridNavigator : MonoBehaviour
             foreach (GridNode r in Path)
             {
                 Gizmos.color = Color.red;
-                    Vector3 center = new Vector3(r.m_cell.center.x, 1.0f, r.m_cell.center.y);
-                    Vector3 size = new Vector3(currentGrid.cellSize, 1.0f, currentGrid.cellSize);
-                    Gizmos.DrawWireCube(center, size);
+                Vector3 center = new Vector3(r.m_cell.center.x, 1.0f, r.m_cell.center.y);
+                Vector3 size = new Vector3(currentGrid.cellSize, 1.0f, currentGrid.cellSize);
+                Gizmos.DrawWireCube(center, size);
             }
         }
     }
