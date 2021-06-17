@@ -23,7 +23,7 @@ public class ExampleScript : MonoBehaviour
         {
             GridNavigator.Move();
 
-            if (Input.GetKeyDown(KeyCode.W))
+            /*if (Input.GetKeyDown(KeyCode.W))
             {
                 GridNavigator.SetDestination(GridNavigator.currentGrid.cells[5, 5]);
             }
@@ -38,6 +38,34 @@ public class ExampleScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
             {
                 GridNavigator.SetDestination(GridNavigator.currentGrid.cells[5, 14]);
+            }*/
+        }
+    }
+
+    void FixedUpdate()
+    {
+        //if mouse button (left hand side) pressed instantiate a raycast
+        if (Input.GetMouseButtonDown(0))
+        {
+            //create a ray cast and set it to the mouses cursor position in game
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                //draw invisible ray cast/vector
+                Debug.DrawLine(ray.origin, hit.point);
+                //log hit area to the console
+                Debug.Log(hit.point);
+
+                if (GridNavigator.currentGrid != null) {
+                    foreach (Rect r in GridNavigator.currentGrid.cells)
+                    {
+                        if (r.Contains(hit.point))
+                        {
+                            GridNavigator.SetDestination(r);
+                        }
+                    }
+                }
             }
         }
     }
