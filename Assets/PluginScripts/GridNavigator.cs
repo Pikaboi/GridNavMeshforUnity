@@ -16,6 +16,8 @@ public class GridNavigator : MonoBehaviour
     List<GridNode> openList = new List<GridNode>();
     List<GridNode> Path = new List<GridNode>();
 
+    int pathNum = 1;
+
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.GetComponent<GridController>() != null)
@@ -27,20 +29,26 @@ public class GridNavigator : MonoBehaviour
     }
 
     public void SetDestination(Rect _Destination) {
+        Path = null;
+        GetCurrentCell();
         //We clear the closedList so it doesnt get stuck on places its been
         Destination = _Destination;
         //Get the center of the destination
-        DestCenter = new Rect(Destination.center, Destination.size);
+        DestCenter = new Rect(Destination.center - Destination.size / 4, Destination.size / 2);
         Path = GetPath();
+        pathNum = 1;
     }
 
     public void SetDestination(int _gridX, int _gridY)
     {
+        Path = null;
+        GetCurrentCell();
         //We clear the closedList so it doesnt get stuck on places its been
         Destination = currentGrid.cells[_gridX, _gridY];
         //Get the center of the destination
-        DestCenter = new Rect(Destination.center, Destination.size / 2);
+        DestCenter = new Rect(Destination.center - Destination.size / 4, Destination.size / 2);
         Path = GetPath();
+        pathNum = 1;
     }
 
     private void GetCurrentCell()
@@ -75,16 +83,34 @@ public class GridNavigator : MonoBehaviour
 
     public void Move()
     {
-        if (Path != null)
+        //Move if there is a path to follow
+        if (Path != null && pathNum < Path.Count - 1)
         {
-            Vector3 lookDir = new Vector3(Path[1].m_cell.center.x, transform.position.y, Path[1].m_cell.center.y);
+            //Look towards the path
+            Vector3 lookDir = new Vector3(Path[pathNum].m_cell.center.x, transform.position.y, Path[pathNum].m_cell.center.y);
             gameObject.transform.LookAt(lookDir);
-            gameObject.transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.World);
+            //Move towards the path
+            gameObject.transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
+        } else if (pathNum == Path.Count - 1 && !DestCenter.Contains(new Vector2(transform.position.x, transform.position.z)))
+        {
+            //Move it too center when its in the destination
+            MoveToDestCenter();
+        }
+
+        //Check if the Navigator reached the next cell
+        if (Path[pathNum].m_cell.Contains(new Vector2(transform.position.x, transform.position.z)))
+        {
+            //Check it doesnt go out of bounds
+            if (pathNum != Path.Count - 1)
+            {
+                pathNum++;
+            }
         }
     }
 
     private List<GridNode> GetPath()
     {
+        GetCurrentCell();
         GridNode Start = new GridNode(CurrentCell);
 
         openList = new List<GridNode>();
@@ -371,24 +397,40 @@ public class GridNavigator : MonoBehaviour
     //Moves the player closer to the center of its destination before stopping
     void MoveToDestCenter()
     {
+        //Look towards center and move
         Vector3 lookDir = new Vector3(Destination.center.x, transform.position.y, Destination.center.y);
 
         transform.LookAt(lookDir);
 
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
     }
 
     private void OnDrawGizmos()
     {
         if (currentGrid != null && Path != null)
         {
+            //Draws the path of the Navigator
             foreach (GridNode r in Path)
             {
-                Gizmos.color = Color.red;
-                Vector3 center = new Vector3(r.m_cell.center.x, 1.0f, r.m_cell.center.y);
-                Vector3 size = new Vector3(currentGrid.cellSize, 1.0f, currentGrid.cellSize);
+                //Notify the goal in green
+                if (r != Path[Path.Count - 1])
+                {
+                    Gizmos.color = Color.red;
+                } else
+                {
+                    Gizmos.color = Color.green;
+                }
+                Vector3 center = new Vector3(r.m_cell.center.x, currentGrid.gameObject.transform.position.y + 1.0f, r.m_cell.center.y);
+                Vector3 size = new Vector3(currentGrid.cellSize, currentGrid.gameObject.transform.position.y + 1.0f, currentGrid.cellSize);
                 Gizmos.DrawWireCube(center, size);
             }
+
+            //The destinations center
+            Gizmos.color = Color.blue;
+
+            Vector3 center2 = new Vector3(DestCenter.center.x, currentGrid.gameObject.transform.position.y + 1.0f, DestCenter.center.y);
+            Vector3 size2 = new Vector3(currentGrid.cellSize / 2, currentGrid.gameObject.transform.position.y + 1.0f, currentGrid.cellSize / 2);
+            Gizmos.DrawWireCube(center2, size2);
         }
     }
 }
