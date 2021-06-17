@@ -151,6 +151,7 @@ public class GridNavigator : MonoBehaviour
 
     List<GridNode> GeneratePath(GridNode _end)
     {
+        //Backtrack through nodes to get the path
         List<GridNode> path = new List<GridNode>();
         path.Add(_end);
         GridNode curr = _end;
