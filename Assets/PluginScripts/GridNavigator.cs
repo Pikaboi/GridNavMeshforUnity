@@ -52,6 +52,7 @@ public class GridNavigator : MonoBehaviour
             {
                 if (_checker == currentGrid.cells[i,j])
                 {
+                    Debug.Log(currentGrid.cells[i, j]);
                     return true;
                 }
             }
