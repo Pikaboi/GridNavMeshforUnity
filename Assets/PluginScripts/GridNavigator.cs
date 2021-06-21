@@ -29,6 +29,11 @@ public class GridNavigator : MonoBehaviour
     }
 
     public void SetDestination(Rect _Destination) {
+        bool check = GridCheck(_Destination);
+        if (!check)
+        {
+            return;
+        }
         currentGrid.ResetNodes();
         GetCurrentCell();
         //We clear the closedList so it doesnt get stuck on places its been
@@ -37,6 +42,21 @@ public class GridNavigator : MonoBehaviour
         DestCenter = new Rect(Destination.center - Destination.size / 4, Destination.size / 2);
         Path = GetPath();
         pathNum = 1;
+    }
+
+    bool GridCheck(Rect _checker)
+    {
+        for (int i = 0; i < currentGrid.gridArea.x; i++)
+        {
+            for (int j = 0; j < currentGrid.gridArea.y; j++)
+            {
+                if (_checker == currentGrid.cells[i,j])
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void SetDestination(int _gridX, int _gridY)
