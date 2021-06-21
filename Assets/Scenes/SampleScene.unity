@@ -155,7 +155,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridArea: {x: 10, y: 15}
   cellSize: 100
-  cellShape: 0
 --- !u!65 &16581019
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -578,7 +577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &404438827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,7 +592,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridArea: {x: 10, y: 10}
   cellSize: 100
-  cellShape: 0
 --- !u!65 &404438828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -802,7 +800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!136 &495156183
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1315,7 +1313,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1005.23
+  far clip plane: 3000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1342,7 +1340,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 7, y: 1001, z: -11}
+  m_LocalPosition: {x: -664, y: 2155, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

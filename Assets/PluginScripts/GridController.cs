@@ -35,7 +35,7 @@ public class GridController : MonoBehaviour
             {
                 //Set the cells position and size
                 //cells.Add(new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x - cellSize / 2 , z - cellSize / 2), new Vector2(cellSize, cellSize)));
-                cells[i, j] = new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x, z), new Vector2(cellSize, cellSize));
+                cells[i, j] = new Rect(new Vector2(i * cellSize, j * cellSize) - new Vector2(x, z) + new Vector2(transform.position.x, transform.position.z), new Vector2(cellSize, cellSize));
                 nodes[i, j] = new GridNode(cells[i, j]);
                 nodes[i, j].m_g = Mathf.Infinity;
                 nodes[i, j].GetF();
@@ -166,7 +166,7 @@ public class GridController : MonoBehaviour
                 {
                     Vector3 center = new Vector3(cells[i, j].center.x, 0.0f, cells[i, j].center.y);
                     Vector3 size = new Vector3(cellSize, 1.0f, cellSize);
-                    Gizmos.DrawWireCube(transform.position + center, size);
+                    Gizmos.DrawWireCube(center, size);
                 }
             }
         }

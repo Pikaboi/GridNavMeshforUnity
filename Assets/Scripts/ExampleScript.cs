@@ -37,7 +37,6 @@ public class ExampleScript : MonoBehaviour
             {
                 //draw invisible ray cast/vector
                 Debug.DrawLine(ray.origin, hit.point);
-                Debug.Log(hit.point);
                 //log hit area to the console
 
                 if (GridNavigator.currentGrid != null) {
