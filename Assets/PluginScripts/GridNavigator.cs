@@ -18,6 +18,7 @@ public class GridNavigator : MonoBehaviour
 
     int pathNum = 1;
 
+    //Sets the grid if they collide
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.GetComponent<GridController>() != null)
@@ -28,6 +29,7 @@ public class GridNavigator : MonoBehaviour
         }
     }
 
+    //Set the destination
     public void SetDestination(Rect _Destination) {
         bool check = GridCheck(_Destination);
         if (!check)
@@ -44,6 +46,7 @@ public class GridNavigator : MonoBehaviour
         pathNum = 1;
     }
 
+    //Check the inputted Rect is on our grid
     bool GridCheck(Rect _checker)
     {
         for (int i = 0; i < currentGrid.gridArea.x; i++)
@@ -59,6 +62,7 @@ public class GridNavigator : MonoBehaviour
         return false;
     }
 
+    //Set the destination using co-ordinates
     public void SetDestination(int _gridX, int _gridY)
     {
         currentGrid.ResetNodes();
@@ -71,6 +75,7 @@ public class GridNavigator : MonoBehaviour
         pathNum = 1;
     }
 
+    //Get the current cell the agent is on
     public void GetCurrentCell()
     {
         for (int i = 0; i < currentGrid.gridArea.x; i++)
@@ -86,6 +91,7 @@ public class GridNavigator : MonoBehaviour
         }
     }
 
+    //Get the node of the cell the agent is on.
     private void GetCurrentNode(GridNode _current)
     {
         for (int i = 0; i < currentGrid.gridArea.x; i++)
@@ -101,6 +107,7 @@ public class GridNavigator : MonoBehaviour
         }
     }
 
+    //Move the agent
     public void Move()
     {
         //Move if there is a path to follow
@@ -130,6 +137,7 @@ public class GridNavigator : MonoBehaviour
         }
     }
 
+    //Get the path with A* algorithm
     private List<GridNode> GetPath()
     {
         GetCurrentCell();
@@ -202,6 +210,7 @@ public class GridNavigator : MonoBehaviour
         return null;
     }
 
+    //Generates the path from the end node
     List<GridNode> GeneratePath(GridNode _end)
     {
         //Backtrack through nodes to get the path
@@ -219,6 +228,7 @@ public class GridNavigator : MonoBehaviour
         return path;
     }
 
+    //Finds the lowest cost to add to the open list
     GridNode GetLowestCost()
     {
         GridNode lowestCost = openList[0];
@@ -235,6 +245,7 @@ public class GridNavigator : MonoBehaviour
         return lowestCost;
     }
 
+    //Get the distance heuristic, based on the movement type
     float GetDistance(Rect start, Rect end)
     {
         float dis = 0;
@@ -256,6 +267,7 @@ public class GridNavigator : MonoBehaviour
         return dis;
     }
 
+    //Get Successors in 4 directions
     List<GridNode> Direction4Move(GridNode _current)
     {
         GetCurrentNode(_current);
@@ -305,6 +317,7 @@ public class GridNavigator : MonoBehaviour
         return successors;
     }
 
+    //Get successors in 8 directions
     List<GridNode> Direction8Move(GridNode _current)
     {
         GetCurrentNode(_current);
@@ -406,6 +419,7 @@ public class GridNavigator : MonoBehaviour
         return successors;
     }
 
+    //Check if at destination
     bool isDest(Rect rect)
     {
         if (rect == Destination)

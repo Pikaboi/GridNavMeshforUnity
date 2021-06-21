@@ -43,6 +43,7 @@ public class GridController : MonoBehaviour
         }
     }
 
+    //Resets all the nodes
     public void ResetNodes()
     {
         //Generate Each cell
@@ -56,6 +57,7 @@ public class GridController : MonoBehaviour
         }
     }
 
+    //Check if a space has an obstacle on it
     public bool FindObstacle(int _x, int _y, GridNavigator _Navigator)
     {
         //Set values for the overlap box
@@ -82,6 +84,7 @@ public class GridController : MonoBehaviour
         return false;
     }
 
+    //Check if a space has an obstacle on it
     public bool FindObstacle(Rect _cell, GridNavigator _Navigator)
     {
         //Set values for the overlap box
@@ -108,6 +111,7 @@ public class GridController : MonoBehaviour
         return false;
     }
 
+    //get the cost of a cell
     public int GetCost(int _x, int _y)
     {
         //Get location and size for overlap box
@@ -131,6 +135,7 @@ public class GridController : MonoBehaviour
         return maxCost;
     }
 
+    //get the cost of a cell
     public int GetCost(Rect _cell)
     {
         //Get location and size for overlap box

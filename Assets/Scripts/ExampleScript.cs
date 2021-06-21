@@ -54,6 +54,7 @@ public class ExampleScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //Sets the default destination
         if(GridNavigator.currentGrid != null)
         {
             GridNavigator.SetDestination(GridNavigator.currentGrid.cells[(int)dest.x - 1, (int)dest.y - 1]);
