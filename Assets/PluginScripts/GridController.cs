@@ -6,7 +6,6 @@ public class GridController : MonoBehaviour
 {
     public Vector2 gridArea = new Vector2(10, 10);
     public int cellSize = 10;
-    public ShapeType cellShape = ShapeType.Square;
 
     public Rect[,] cells = new Rect[10,10];
     public GridNode[,] nodes = new GridNode[10, 10];
