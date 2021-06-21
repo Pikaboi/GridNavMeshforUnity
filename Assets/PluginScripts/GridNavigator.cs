@@ -8,13 +8,13 @@ public class GridNavigator : MonoBehaviour
 
     public GridController currentGrid;
     public float speed = 50;
-    Rect CurrentCell;
-    Rect Destination;
+    public Rect CurrentCell;
+    public Rect Destination;
     Rect DestCenter;
     Vector2Int cellID;
     List<GridNode> closedList = new List<GridNode>();
     List<GridNode> openList = new List<GridNode>();
-    List<GridNode> Path = new List<GridNode>();
+    public List<GridNode> Path = new List<GridNode>();
 
     int pathNum = 1;
 
@@ -71,7 +71,7 @@ public class GridNavigator : MonoBehaviour
         pathNum = 1;
     }
 
-    private void GetCurrentCell()
+    public void GetCurrentCell()
     {
         for (int i = 0; i < currentGrid.gridArea.x; i++)
         {
